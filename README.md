@@ -1,3 +1,3 @@
-# Godot Multiple Resolutions Test
+# Godot 2D Pixel Style Test
 
 WIP.
