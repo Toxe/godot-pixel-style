@@ -1,48 +1,71 @@
-[gd_scene load_steps=2 format=3 uid="uid://c0s1ghhdkg1y5"]
+[gd_scene load_steps=3 format=3 uid="uid://c0s1ghhdkg1y5"]
 
 [ext_resource type="Script" uid="uid://b0m7te8rndoge" path="res://scenes/gui.gd" id="1_efmwq"]
+[ext_resource type="Theme" uid="uid://di14qk6sdexpx" path="res://scenes/theme.tres" id="1_mfius"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_mfius")
 script = ExtResource("1_efmwq")
 
-[node name="CameraLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 23.0
-offset_top = 8.0
-offset_right = 92.0
-offset_bottom = 50.0
-theme_override_colors/font_color = Color(1, 1, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 8
-text = "Camera
-2
-3"
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="TextureRectLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 7.0
-offset_top = 83.0
-offset_right = 76.0
-offset_bottom = 125.0
-theme_override_colors/font_color = Color(1, 1, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 8
-text = "TextureRectLabel"
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="KingLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 144.0
-offset_right = 81.0
-offset_bottom = 186.0
-theme_override_colors/font_color = Color(1, 1, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 8
-text = "KingLabel"
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Camera target position:
+screen center position:
+screen position:"
+horizontal_alignment = 2
+
+[node name="CameraLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "???"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "TextureRect canvas position:
+screen position:"
+horizontal_alignment = 2
+
+[node name="TextureRectLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "???"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "King global position:
+screen position:"
+horizontal_alignment = 2
+
+[node name="KingLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "???"
+
+[node name="HotkeysLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Hotkeys"
