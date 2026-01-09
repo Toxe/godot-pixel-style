@@ -68,4 +68,6 @@ text = "???"
 [node name="HotkeysLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
-text = "Toggle GUI: G"
+text = "Toggle GUI: G
+Quit: Escape"
+horizontal_alignment = 2
