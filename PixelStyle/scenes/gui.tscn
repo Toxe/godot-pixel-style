@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://b0m7te8rndoge" path="res://scenes/gui.gd" id="1_efmwq"]
 [ext_resource type="Theme" uid="uid://di14qk6sdexpx" path="res://scenes/theme.tres" id="1_mfius"]
 
-[node name="Control" type="Control"]
-layout_mode = 3
+[node name="GUI" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,12 +13,7 @@ theme = ExtResource("1_mfius")
 script = ExtResource("1_efmwq")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
