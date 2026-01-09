@@ -6,6 +6,13 @@ class_name GUI extends Control
 @onready var camera_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer/CameraLabel
 @onready var texture_rect_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer2/TextureRectLabel
 @onready var king_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer3/KingLabel
+@onready var king_speed_slider: HSlider = $HBoxContainer/VBoxContainer/HBoxContainer4/KingSpeedSlider
+@onready var king_speed_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer4/KingSpeedLabel
+
+
+func _ready() -> void:
+    king_speed_slider.value = game.king_speed
+    king_speed_label.text = "%.2f" % game.king_speed
 
 
 func _process(_delta: float) -> void:
@@ -38,3 +45,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func format_vector(vec: Vector2) -> String:
     return "%.2f / %.2f" % [vec.x, vec.y]
+
+
+func _on_king_speed_slider_value_changed(value: float) -> void:
+    game.king_speed = value
+    king_speed_label.text = "%.2f" % game.king_speed
