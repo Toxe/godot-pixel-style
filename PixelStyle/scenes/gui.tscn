@@ -81,6 +81,7 @@ layout_mode = 2
 size_flags_vertical = 0
 text = "Toggle Fullscreen: F
 Toggle GUI: G
+Move Camera: Arrow Keys
 Quit: Escape"
 horizontal_alignment = 2
 
