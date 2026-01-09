@@ -24,7 +24,8 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Camera target position:
+text = "Camera:
+target position:
 screen center position:
 screen position:"
 horizontal_alignment = 2
@@ -94,6 +95,7 @@ layout_mode = 2
 size_flags_vertical = 0
 text = "Toggle Fullscreen: F
 Toggle GUI: G
+Switch Cameras: C
 Move Camera: Arrow Keys
 Quit: Escape"
 horizontal_alignment = 2
