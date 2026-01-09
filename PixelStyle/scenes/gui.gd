@@ -38,7 +38,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
         else:
             DisplayServer.window_set_mode(DisplayServer.WindowMode.WINDOW_MODE_FULLSCREEN)
     elif event.is_action_pressed("toggle_gui"):
-        visible = !visible
+        ($HBoxContainer as Control).visible = !($HBoxContainer as Control).visible
     elif event.is_action_pressed("quit"):
         get_tree().quit()
 
