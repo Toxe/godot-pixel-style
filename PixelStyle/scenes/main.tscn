@@ -21,13 +21,6 @@ metadata/_edit_lock_ = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="GUI" parent="CanvasLayer" node_paths=PackedStringArray("camera", "texture_rect", "king") instance=ExtResource("2_sugp2")]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 2
 camera = NodePath("../../SubViewport/Game/Path2D/PathFollow2D/King/Camera2D")
 texture_rect = NodePath("../../TextureRect")
 king = NodePath("../../SubViewport/Game/Path2D/PathFollow2D/King")

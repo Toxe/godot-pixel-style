@@ -25,5 +25,10 @@ func _draw() -> void:
     draw_circle(camera.get_screen_transform().origin - cam_delta, 10, Color.PURPLE, false, 2)
 
 
+func _unhandled_key_input(event: InputEvent) -> void:
+    if event.is_action_pressed("toggle_gui"):
+        visible = !visible
+
+
 func format_vector(vec: Vector2) -> String:
     return "%.2f / %.2f" % [vec.x, vec.y]
