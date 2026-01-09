@@ -8,6 +8,9 @@ var king_speed := 0.1
 
 
 func _process(delta: float) -> void:
+    var camera_movement := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+    camera.position += camera_movement * 100.0 * delta
+
     path_follow.progress_ratio += delta * king_speed
     queue_redraw()
 

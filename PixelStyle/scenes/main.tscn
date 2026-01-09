@@ -7,9 +7,8 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_hyk8p"]
 viewport_path = NodePath("SubViewport")
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("camera")]
+[node name="Main" type="Node2D"]
 script = ExtResource("1_0wfyh")
-camera = NodePath("SubViewport/Game/Path2D/PathFollow2D/King/Camera2D")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_right = 640.0
