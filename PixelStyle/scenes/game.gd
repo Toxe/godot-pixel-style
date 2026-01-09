@@ -1,7 +1,8 @@
 class_name Game extends Node2D
 
-@onready var path_follow: PathFollow2D = $Path2D/PathFollow2D
 @onready var camera: Camera2D = $Path2D/PathFollow2D/King/Camera2D
+@onready var king: Sprite2D = $Path2D/PathFollow2D/King
+@onready var path_follow: PathFollow2D = $Path2D/PathFollow2D
 
 
 func _process(delta: float) -> void:
