@@ -83,6 +83,6 @@ rotates = false
 [node name="King" type="Sprite2D" parent="Path2D/PathFollow2D"]
 texture = ExtResource("2_lbhrr")
 
-[node name="Camera2D" type="Camera2D" parent="Path2D/PathFollow2D/King"]
+[node name="GameCamera" type="Camera2D" parent="Path2D/PathFollow2D/King"]
 position_smoothing_enabled = true
 position_smoothing_speed = 1.0
