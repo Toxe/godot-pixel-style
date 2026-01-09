@@ -76,6 +76,19 @@ step = 0.01
 layout_mode = 2
 text = "???"
 
+[node name="HBoxContainer5" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+text = "Window size:
+Game viewport size:"
+horizontal_alignment = 2
+
+[node name="WindowSizeLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer5"]
+layout_mode = 2
+text = "???"
+
 [node name="HotkeysLabel" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
