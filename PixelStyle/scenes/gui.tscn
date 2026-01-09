@@ -70,6 +70,7 @@ text = "King speed:"
 [node name="KingSpeedSlider" type="HSlider" parent="HBoxContainer/VBoxContainer/HBoxContainer4"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+focus_mode = 0
 max_value = 1.0
 step = 0.01
 
