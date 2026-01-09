@@ -17,9 +17,9 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-    camera_label.text = "%s\n%s\n%s" % [format_vector(game.camera.get_target_position()), format_vector(game.camera.get_screen_center_position()), format_vector(game.camera.get_screen_transform().origin)]
-    texture_rect_label.text = "%s\n%s" % [format_vector(texture_rect.get_canvas_transform().origin), format_vector(texture_rect.get_screen_transform().origin)]
-    king_label.text = "%s\n%s" % [format_vector(game.king.global_position), format_vector(game.king.get_screen_transform().origin)]
+    camera_label.text = "%s\n%s\n%s" % [format_position(game.camera.get_target_position()), format_position(game.camera.get_screen_center_position()), format_position(game.camera.get_screen_transform().origin)]
+    texture_rect_label.text = "%s\n%s" % [format_position(texture_rect.get_canvas_transform().origin), format_position(texture_rect.get_screen_transform().origin)]
+    king_label.text = "%s\n%s" % [format_position(game.king.global_position), format_position(game.king.get_screen_transform().origin)]
     window_size_label.text = "%s\n%s" % [format_size(get_window().size), format_size((game.get_viewport() as SubViewport).size)]
     queue_redraw()
 
@@ -45,7 +45,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
         get_tree().quit()
 
 
-func format_vector(vec: Vector2) -> String:
+func format_position(vec: Vector2) -> String:
     return "%.2f / %.2f" % [vec.x, vec.y]
 
 
