@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cl4oo5o1s3gb8"]
+[gd_scene load_steps=8 format=3 uid="uid://cl4oo5o1s3gb8"]
 
 [ext_resource type="Script" uid="uid://d2iku4cotnqps" path="res://scenes/game.gd" id="1_iywne"]
 [ext_resource type="Texture2D" uid="uid://du8lun6vdtf55" path="res://assets/images/IMG_7413.webp" id="1_uwrxv"]
@@ -12,6 +12,12 @@ _data = {
 }
 point_count = 6
 
+[sub_resource type="Curve2D" id="Curve2D_iywne"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, -40, 40, 0, 0, 0, 0, 0, 0)
+}
+point_count = 4
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_iywne")
 
@@ -20,10 +26,6 @@ z_index = -1
 texture = ExtResource("1_uwrxv")
 centered = false
 metadata/_edit_lock_ = true
-
-[node name="Tile0088" type="Sprite2D" parent="."]
-position = Vector2(274, 258)
-texture = ExtResource("3_iywne")
 
 [node name="Tile0090" type="Sprite2D" parent="."]
 position = Vector2(334, 250)
@@ -73,16 +75,27 @@ texture = ExtResource("4_p57ef")
 position = Vector2(311, 264)
 texture = ExtResource("4_p57ef")
 
-[node name="Path2D" type="Path2D" parent="."]
+[node name="KingPath2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_p57ef")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+[node name="PathFollow2D" type="PathFollow2D" parent="KingPath2D"]
 position = Vector2(366, 251.3333)
 rotates = false
 
-[node name="King" type="Sprite2D" parent="Path2D/PathFollow2D"]
+[node name="King" type="Sprite2D" parent="KingPath2D/PathFollow2D"]
 texture = ExtResource("2_lbhrr")
 
-[node name="GameCamera" type="Camera2D" parent="Path2D/PathFollow2D/King"]
+[node name="GameCamera" type="Camera2D" parent="KingPath2D/PathFollow2D/King"]
 position_smoothing_enabled = true
 position_smoothing_speed = 1.0
+
+[node name="PriestPath2D" type="Path2D" parent="."]
+position = Vector2(275, 240)
+curve = SubResource("Curve2D_iywne")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="PriestPath2D"]
+rotates = false
+cubic_interp = false
+
+[node name="Priest" type="Sprite2D" parent="PriestPath2D/PathFollow2D"]
+texture = ExtResource("3_iywne")
