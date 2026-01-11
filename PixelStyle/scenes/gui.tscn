@@ -34,6 +34,26 @@ horizontal_alignment = 2
 layout_mode = 2
 text = "???"
 
+[node name="HBoxContainer6" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+text = "Camera zoom:"
+
+[node name="CameraZoomSlider" type="HSlider" parent="HBoxContainer/VBoxContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+focus_mode = 0
+min_value = 0.25
+max_value = 5.0
+step = 0.25
+value = 1.0
+
+[node name="CameraZoomLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+text = "???"
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -103,4 +123,5 @@ Toggle Camera Smoothing: S
 Quit: Escape"
 horizontal_alignment = 2
 
+[connection signal="value_changed" from="HBoxContainer/VBoxContainer/HBoxContainer6/CameraZoomSlider" to="." method="_on_camera_zoom_slider_value_changed"]
 [connection signal="value_changed" from="HBoxContainer/VBoxContainer/HBoxContainer4/KingSpeedSlider" to="." method="_on_king_speed_slider_value_changed"]

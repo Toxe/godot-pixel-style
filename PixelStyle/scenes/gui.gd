@@ -5,16 +5,13 @@ class_name GUI extends Control
 @export var texture_rect: TextureRect
 
 @onready var camera_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer/CameraLabel
+@onready var camera_zoom_slider: HSlider = $HBoxContainer/VBoxContainer/HBoxContainer6/CameraZoomSlider
+@onready var camera_zoom_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer6/CameraZoomLabel
 @onready var texture_rect_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer2/TextureRectLabel
 @onready var king_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer3/KingLabel
 @onready var king_speed_slider: HSlider = $HBoxContainer/VBoxContainer/HBoxContainer4/KingSpeedSlider
 @onready var king_speed_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer4/KingSpeedLabel
 @onready var window_size_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer5/WindowSizeLabel
-
-
-func _ready() -> void:
-    king_speed_slider.value = game.king_speed
-    king_speed_label.text = "%.2f" % game.king_speed
 
 
 func _process(delta: float) -> void:
@@ -25,6 +22,12 @@ func _process(delta: float) -> void:
     texture_rect_label.text = "%s\n%s" % [format_position(texture_rect.get_canvas_transform().origin), format_position(texture_rect.get_screen_transform().origin)]
     king_label.text = "%s\n%s" % [format_position(game.king.global_position), format_position(game.king.get_screen_transform().origin)]
     window_size_label.text = "%s\n%s" % [format_size(get_window().size), format_size((game.get_viewport() as SubViewport).size)]
+
+    camera_zoom_slider.value = camera_manager.current_camera.zoom.x
+    camera_zoom_label.text = "%.2f" % camera_manager.current_camera.zoom.x
+    king_speed_slider.value = game.king_speed
+    king_speed_label.text = "%.2f" % game.king_speed
+
     queue_redraw()
 
 
@@ -61,6 +64,11 @@ func format_position(vec: Vector2) -> String:
 
 func format_size(vec: Vector2i) -> String:
     return "%d×%d" % [vec.x, vec.y]
+
+
+func _on_camera_zoom_slider_value_changed(value: float) -> void:
+    camera_manager.current_camera.zoom = Vector2(value, value)
+    camera_zoom_label.text = "%.2f" % camera_manager.current_camera.zoom.x
 
 
 func _on_king_speed_slider_value_changed(value: float) -> void:
