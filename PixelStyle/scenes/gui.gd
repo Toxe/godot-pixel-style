@@ -4,6 +4,7 @@ class_name GUI extends Control
 @export var camera_manager: CameraManager
 @export var texture_rect: TextureRect
 
+@onready var frame_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer9/FrameLabel
 @onready var camera_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer/CameraLabel
 @onready var camera_zoom_slider: HSlider = $HBoxContainer/VBoxContainer/HBoxContainer6/CameraZoomSlider
 @onready var camera_zoom_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer6/CameraZoomLabel
@@ -21,6 +22,7 @@ func _process(delta: float) -> void:
     var camera_movement := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
     camera_manager.current_camera.position += camera_movement * 100.0 * delta
 
+    frame_label.text = "%0.6f\n%d\n%0.1f" % [Time.get_ticks_usec() / 1_000_000.0, Engine.get_process_frames(), Performance.get_monitor(Performance.TIME_FPS)]
     camera_label.text = "%s\n%s\n%s\n%s" % [camera_manager.current_camera.name, format_position(camera_manager.current_camera.get_target_position()), format_position(camera_manager.current_camera.get_screen_center_position()), format_position(camera_manager.current_camera.get_screen_transform().origin)]
     texture_rect_label.text = "%s\n%s" % [format_position(texture_rect.get_canvas_transform().origin), format_position(texture_rect.get_screen_transform().origin)]
     king_label.text = "%s\n%s" % [format_position(game.king.global_position), format_position(game.king.get_screen_transform().origin)]
