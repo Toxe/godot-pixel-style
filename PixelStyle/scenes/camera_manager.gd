@@ -14,3 +14,11 @@ func next_camera() -> void:
     current_camera.enabled = false
     current_camera = cameras[next_index] if next_index < cameras.size() else cameras[0]
     current_camera.enabled = true
+
+
+func recenter_camera() -> void:
+    current_camera.position = Vector2.ZERO
+
+
+func toggle_camera_smoothing() -> void:
+    current_camera.position_smoothing_enabled = !current_camera.position_smoothing_enabled

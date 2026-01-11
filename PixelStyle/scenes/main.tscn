@@ -35,12 +35,14 @@ render_target_update_mode = 4
 
 [node name="Game" parent="SubViewport" instance=ExtResource("1_o5qli")]
 
-[node name="MainCamera" type="Camera2D" parent="."]
+[node name="CameraManager" type="Node" parent="." node_paths=PackedStringArray("cameras")]
+script = ExtResource("4_jyhfs")
+cameras = [NodePath("../CameraOrigin/MainCamera"), NodePath("../SubViewport/Game/Path2D/PathFollow2D/King/GameCamera")]
+
+[node name="CameraOrigin" type="Marker2D" parent="."]
 position = Vector2(320, 180)
+
+[node name="MainCamera" type="Camera2D" parent="CameraOrigin"]
 enabled = false
 position_smoothing_enabled = true
 position_smoothing_speed = 1.0
-
-[node name="CameraManager" type="Node" parent="." node_paths=PackedStringArray("cameras")]
-script = ExtResource("4_jyhfs")
-cameras = [NodePath("../MainCamera"), NodePath("../SubViewport/Game/Path2D/PathFollow2D/King/GameCamera")]
