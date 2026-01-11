@@ -11,6 +11,9 @@ class_name GUI extends Control
 @onready var king_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer3/KingLabel
 @onready var king_speed_slider: HSlider = $HBoxContainer/VBoxContainer/HBoxContainer4/KingSpeedSlider
 @onready var king_speed_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer4/KingSpeedLabel
+@onready var priest_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer7/PriestLabel
+@onready var priest_speed_slider: HSlider = $HBoxContainer/VBoxContainer/HBoxContainer8/PriestSpeedSlider
+@onready var priest_speed_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer8/PriestSpeedLabel
 @onready var window_size_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer5/WindowSizeLabel
 
 
@@ -21,12 +24,15 @@ func _process(delta: float) -> void:
     camera_label.text = "%s\n%s\n%s\n%s" % [camera_manager.current_camera.name, format_position(camera_manager.current_camera.get_target_position()), format_position(camera_manager.current_camera.get_screen_center_position()), format_position(camera_manager.current_camera.get_screen_transform().origin)]
     texture_rect_label.text = "%s\n%s" % [format_position(texture_rect.get_canvas_transform().origin), format_position(texture_rect.get_screen_transform().origin)]
     king_label.text = "%s\n%s" % [format_position(game.king.global_position), format_position(game.king.get_screen_transform().origin)]
+    priest_label.text = "%s\n%s" % [format_position(game.priest.global_position), format_position(game.priest.get_screen_transform().origin)]
     window_size_label.text = "%s\n%s" % [format_size(get_window().size), format_size((game.get_viewport() as SubViewport).size)]
 
     camera_zoom_slider.value = camera_manager.current_camera.zoom.x
     camera_zoom_label.text = "%.2f" % camera_manager.current_camera.zoom.x
     king_speed_slider.value = game.king_speed
     king_speed_label.text = "%.2f" % game.king_speed
+    priest_speed_slider.value = game.priest_speed
+    priest_speed_label.text = "%.2f (pixels per frame)" % game.priest_speed
 
     queue_redraw()
 
@@ -74,3 +80,8 @@ func _on_camera_zoom_slider_value_changed(value: float) -> void:
 func _on_king_speed_slider_value_changed(value: float) -> void:
     game.king_speed = value
     king_speed_label.text = "%.2f" % game.king_speed
+
+
+func _on_priest_speed_slider_value_changed(value: float) -> void:
+    game.priest_speed = value
+    priest_speed_label.text = "%.2f" % game.priest_speed
