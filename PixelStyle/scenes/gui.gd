@@ -6,15 +6,15 @@ class_name GUI extends Control
 
 @onready var frame_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer9/FrameLabel
 @onready var camera_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer/CameraLabel
-@onready var camera_zoom_slider: HSlider = $HBoxContainer/VBoxContainer/HBoxContainer6/CameraZoomSlider
-@onready var camera_zoom_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer6/CameraZoomLabel
+@onready var camera_zoom_slider: HSlider = $HBoxContainer/VBoxContainer/GridContainer/CameraZoomSlider
+@onready var camera_zoom_label: Label = $HBoxContainer/VBoxContainer/GridContainer/CameraZoomLabel
 @onready var texture_rect_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer2/TextureRectLabel
 @onready var king_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer3/KingLabel
-@onready var king_speed_slider: HSlider = $HBoxContainer/VBoxContainer/HBoxContainer4/KingSpeedSlider
-@onready var king_speed_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer4/KingSpeedLabel
+@onready var king_speed_slider: HSlider = $HBoxContainer/VBoxContainer/GridContainer/KingSpeedSlider
+@onready var king_speed_label: Label = $HBoxContainer/VBoxContainer/GridContainer/KingSpeedLabel
 @onready var priest_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer7/PriestLabel
-@onready var priest_speed_slider: HSlider = $HBoxContainer/VBoxContainer/HBoxContainer8/PriestSpeedSlider
-@onready var priest_speed_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer8/PriestSpeedLabel
+@onready var priest_speed_slider: HSlider = $HBoxContainer/VBoxContainer/GridContainer/PriestSpeedSlider
+@onready var priest_speed_label: Label = $HBoxContainer/VBoxContainer/GridContainer/PriestSpeedLabel
 @onready var window_size_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer5/WindowSizeLabel
 
 
