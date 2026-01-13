@@ -163,6 +163,7 @@ text = "Toggle Fullscreen: F
 Toggle GUI: G
 Switch Camera: C
 Move Camera: Arrow Keys
+Slow Camera Movement: Hold Shift
 Recenter Camera: R
 Toggle Camera Smoothing: S
 Quit: Escape"
