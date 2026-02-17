@@ -41,8 +41,7 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-    draw_line(Vector2(320, -360), Vector2(320, 2 * 360), Color.WHEAT)
-    draw_line(Vector2(-640, 180), Vector2(2 * 640, 180), Color.WHEAT)
+    DebugDraw.draw_axes(self, size / 2.0, "GUI center", Color.WHEAT)
 
     var cam_delta := camera_manager.current_camera.get_target_position() - camera_manager.current_camera.get_screen_center_position()
     draw_circle(camera_manager.current_camera.get_screen_transform().origin, 10, Color.TURQUOISE, false, 2)

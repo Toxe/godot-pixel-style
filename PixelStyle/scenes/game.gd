@@ -17,5 +17,4 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-    draw_line(Vector2(320, -360), Vector2(320, 2 * 360), Color.WHEAT)
-    draw_line(Vector2(-640, 180), Vector2(2 * 640, 180), Color.WHEAT)
+    DebugDraw.draw_axes(self, Vector2((get_viewport() as SubViewport).size) / 2.0, "world center", Color.WHEAT)
