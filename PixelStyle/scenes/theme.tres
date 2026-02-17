@@ -1,6 +1,10 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://di14qk6sdexpx"]
+[gd_resource type="Theme" format=3 uid="uid://di14qk6sdexpx"]
 
 [ext_resource type="FontFile" uid="uid://jxpiue4a0r2q" path="res://assets/fonts/NotoSans.ttf" id="1_nx7ni"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nx7ni"]
+content_margin_left = 2.0
+content_margin_right = 2.0
 
 [sub_resource type="FontVariation" id="FontVariation_jm5n4"]
 base_font = ExtResource("1_nx7ni")
@@ -9,16 +13,12 @@ variation_opentype = {
 2003265652: 400
 }
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nx7ni"]
-content_margin_left = 2.0
-content_margin_right = 2.0
-
 [resource]
+default_font = SubResource("FontVariation_jm5n4")
+default_font_size = 10
 GridContainer/constants/v_separation = -2
 Label/colors/font_color = Color(0, 1, 1, 1)
 Label/colors/font_outline_color = Color(0, 0, 0, 1)
 Label/constants/line_spacing = -4
 Label/constants/outline_size = 2
-Label/font_sizes/font_size = 10
-Label/fonts/font = SubResource("FontVariation_jm5n4")
 PanelContainer/styles/panel = SubResource("StyleBoxEmpty_nx7ni")
