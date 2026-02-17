@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dvkb4iyvuwwy4"]
+[gd_scene format=3 uid="uid://dvkb4iyvuwwy4"]
 
 [ext_resource type="Script" uid="uid://ck1hqqe4crdiu" path="res://scenes/main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://cl4oo5o1s3gb8" path="res://scenes/game.tscn" id="1_o5qli"]
@@ -8,24 +8,24 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_hyk8p"]
 viewport_path = NodePath("SubViewport")
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" unique_id=2133244504]
 script = ExtResource("1_0wfyh")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=895620939]
 offset_right = 640.0
 offset_bottom = 360.0
 texture = SubResource("ViewportTexture_hyk8p")
 stretch_mode = 4
 metadata/_edit_lock_ = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=239256045]
 
-[node name="GUI" parent="CanvasLayer" node_paths=PackedStringArray("game", "camera_manager", "texture_rect") instance=ExtResource("2_sugp2")]
+[node name="GUI" parent="CanvasLayer" unique_id=1614743662 node_paths=PackedStringArray("game", "camera_manager", "texture_rect") instance=ExtResource("2_sugp2")]
 game = NodePath("../../SubViewport/Game")
 camera_manager = NodePath("../../CameraManager")
 texture_rect = NodePath("../../TextureRect")
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1864555742]
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
@@ -33,16 +33,16 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(640, 360)
 render_target_update_mode = 4
 
-[node name="Game" parent="SubViewport" instance=ExtResource("1_o5qli")]
+[node name="Game" parent="SubViewport" unique_id=1879872571 instance=ExtResource("1_o5qli")]
 
-[node name="CameraManager" type="Node" parent="." node_paths=PackedStringArray("cameras")]
+[node name="CameraManager" type="Node" parent="." unique_id=524834277 node_paths=PackedStringArray("cameras")]
 script = ExtResource("4_jyhfs")
 cameras = [NodePath("../CameraOrigin/MainCamera"), NodePath("../SubViewport/Game/KingPath2D/PathFollow2D/King/GameCamera")]
 
-[node name="CameraOrigin" type="Marker2D" parent="."]
+[node name="CameraOrigin" type="Marker2D" parent="." unique_id=1277183352]
 position = Vector2(320, 180)
 
-[node name="MainCamera" type="Camera2D" parent="CameraOrigin"]
+[node name="MainCamera" type="Camera2D" parent="CameraOrigin" unique_id=1991759693]
 enabled = false
 position_smoothing_enabled = true
 position_smoothing_speed = 1.0

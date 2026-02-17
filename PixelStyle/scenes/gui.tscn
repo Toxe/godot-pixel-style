@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0s1ghhdkg1y5"]
+[gd_scene format=3 uid="uid://c0s1ghhdkg1y5"]
 
 [ext_resource type="Script" uid="uid://b0m7te8rndoge" path="res://scenes/gui.gd" id="1_efmwq"]
 [ext_resource type="Theme" uid="uid://di14qk6sdexpx" path="res://scenes/theme.tres" id="1_mfius"]
 
-[node name="GUI" type="PanelContainer"]
+[node name="GUI" type="PanelContainer" unique_id=583806817]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -12,31 +12,31 @@ grow_vertical = 2
 theme = ExtResource("1_mfius")
 script = ExtResource("1_efmwq")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=907191759]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1398162604]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer9" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer9" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=109832277]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer9"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer9" unique_id=2007414487]
 layout_mode = 2
 text = "Time:
 Frame:
 FPS:"
 horizontal_alignment = 2
 
-[node name="FrameLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer9"]
+[node name="FrameLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer9" unique_id=810789044]
 layout_mode = 2
 text = "???"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1624047596]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=972773444]
 layout_mode = 2
 text = "Camera:
 position smoothing:
@@ -47,72 +47,72 @@ offset:
 screen center position:"
 horizontal_alignment = 2
 
-[node name="CameraLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="CameraLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=871100353]
 layout_mode = 2
 text = "???"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=281026379]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=932733650]
 layout_mode = 2
 text = "TextureRect canvas position:
 screen position:"
 horizontal_alignment = 2
 
-[node name="TextureRectLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="TextureRectLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=156797625]
 layout_mode = 2
 text = "???"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1000035075]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer3" unique_id=510147200]
 layout_mode = 2
 text = "King global position:
 screen position:"
 horizontal_alignment = 2
 
-[node name="KingLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
+[node name="KingLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer3" unique_id=1766548113]
 layout_mode = 2
 text = "???"
 
-[node name="HBoxContainer7" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer7" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=2007705510]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer7"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer7" unique_id=1876802483]
 layout_mode = 2
 text = "Priest global position:
 screen position:"
 horizontal_alignment = 2
 
-[node name="PriestLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer7"]
+[node name="PriestLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer7" unique_id=362510933]
 layout_mode = 2
 text = "???"
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=92756927]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer5"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer5" unique_id=430946569]
 layout_mode = 2
 text = "Window size:
 Game viewport size:"
 horizontal_alignment = 2
 
-[node name="WindowSizeLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer5"]
+[node name="WindowSizeLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer5" unique_id=1153910091]
 layout_mode = 2
 text = "???"
 
-[node name="GridContainer" type="GridContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer/VBoxContainer" unique_id=1833899809]
 layout_mode = 2
 columns = 3
 
-[node name="Label1" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer"]
+[node name="Label1" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer" unique_id=715577175]
 layout_mode = 2
 text = "Camera zoom:"
 horizontal_alignment = 2
 
-[node name="CameraZoomSlider" type="HSlider" parent="HBoxContainer/VBoxContainer/GridContainer"]
+[node name="CameraZoomSlider" type="HSlider" parent="HBoxContainer/VBoxContainer/GridContainer" unique_id=274531904]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 focus_mode = 0
@@ -121,43 +121,43 @@ max_value = 5.0
 step = 0.25
 value = 1.0
 
-[node name="CameraZoomLabel" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer"]
+[node name="CameraZoomLabel" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer" unique_id=270093338]
 layout_mode = 2
 text = "???"
 
-[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer" unique_id=2043084773]
 layout_mode = 2
 text = "King speed:"
 horizontal_alignment = 2
 
-[node name="KingSpeedSlider" type="HSlider" parent="HBoxContainer/VBoxContainer/GridContainer"]
+[node name="KingSpeedSlider" type="HSlider" parent="HBoxContainer/VBoxContainer/GridContainer" unique_id=660913991]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 focus_mode = 0
 max_value = 1.0
 step = 0.01
 
-[node name="KingSpeedLabel" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer"]
+[node name="KingSpeedLabel" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer" unique_id=906781650]
 layout_mode = 2
 text = "???"
 
-[node name="Label3" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer"]
+[node name="Label3" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer" unique_id=487496800]
 layout_mode = 2
 text = "Priest speed:"
 horizontal_alignment = 2
 
-[node name="PriestSpeedSlider" type="HSlider" parent="HBoxContainer/VBoxContainer/GridContainer"]
+[node name="PriestSpeedSlider" type="HSlider" parent="HBoxContainer/VBoxContainer/GridContainer" unique_id=711768811]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 focus_mode = 0
 max_value = 3.0
 step = 0.01
 
-[node name="PriestSpeedLabel" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer"]
+[node name="PriestSpeedLabel" type="Label" parent="HBoxContainer/VBoxContainer/GridContainer" unique_id=1275917073]
 layout_mode = 2
 text = "???"
 
-[node name="HotkeysLabel" type="Label" parent="HBoxContainer"]
+[node name="HotkeysLabel" type="Label" parent="HBoxContainer" unique_id=1540125152]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Toggle Fullscreen: F
