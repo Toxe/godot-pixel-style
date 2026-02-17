@@ -18,6 +18,7 @@ func next_camera() -> void:
 
 func recenter_camera() -> void:
     current_camera.position = Vector2.ZERO
+    current_camera.offset = Vector2.ZERO
 
 
 func toggle_camera_smoothing() -> void:

@@ -39,9 +39,12 @@ layout_mode = 2
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Camera:
+position smoothing:
+position:
+global position:
 target position:
-screen center position:
-screen position:"
+offset:
+screen center position:"
 horizontal_alignment = 2
 
 [node name="CameraLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
@@ -160,7 +163,8 @@ size_flags_vertical = 0
 text = "Toggle Fullscreen: F
 Toggle GUI: G
 Switch Camera: C
-Move Camera: Arrow Keys
+Move Camera Position: Arrow Keys
+Move Camera Offset: Ctrl + Arrow Keys
 Slow Camera Movement: Hold Shift
 Recenter Camera: R
 Toggle Camera Smoothing: S

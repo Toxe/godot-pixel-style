@@ -19,19 +19,34 @@ class_name GUI extends Control
 
 
 func _process(delta: float) -> void:
+    var current_camera := camera_manager.current_camera
     var camera_movement := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-    var camera_speed := 0.1 if Input.is_physical_key_pressed(Key.KEY_SHIFT) else 1.0
-    camera_manager.current_camera.position += camera_movement * 100.0 * delta * camera_speed
+
+    if camera_movement != Vector2.ZERO:
+        var camera_speed := 0.1 if Input.is_physical_key_pressed(Key.KEY_SHIFT) else 1.0
+        if Input.is_physical_key_pressed(Key.KEY_CTRL):
+            current_camera.offset += camera_movement * 100.0 * delta * camera_speed
+        else:
+            current_camera.position += camera_movement * 100.0 * delta * camera_speed
 
     frame_label.text = "%0.6f\n%d\n%0.1f" % [Time.get_ticks_usec() / 1_000_000.0, Engine.get_process_frames(), Performance.get_monitor(Performance.TIME_FPS)]
-    camera_label.text = "%s\n%s\n%s\n%s" % [camera_manager.current_camera.name, format_position(camera_manager.current_camera.get_target_position()), format_position(camera_manager.current_camera.get_screen_center_position()), format_position(camera_manager.current_camera.get_screen_transform().origin)]
-    texture_rect_label.text = "%s\n%s" % [format_position(texture_rect.get_canvas_transform().origin), format_position(texture_rect.get_screen_transform().origin)]
-    king_label.text = "%s\n%s" % [format_position(game.king.global_position), format_position(game.king.get_screen_transform().origin)]
-    priest_label.text = "%s\n%s" % [format_position(game.priest.global_position), format_position(game.priest.get_screen_transform().origin)]
-    window_size_label.text = "%s\n%s" % [format_size(get_window().size), format_size((game.get_viewport() as SubViewport).size)]
+    camera_label.text = "%s\n%s\n%s\n%s\n%s\n%s\n%s" % [
+        current_camera.name,
+        "on" if current_camera.position_smoothing_enabled else "off",
+        Format.format_position(current_camera.position),
+        Format.format_position(current_camera.global_position),
+        Format.format_position(current_camera.get_target_position()),
+        Format.format_position(current_camera.offset),
+        Format.format_position(current_camera.get_screen_center_position()),
+    ]
 
-    camera_zoom_slider.value = camera_manager.current_camera.zoom.x
-    camera_zoom_label.text = "%.2f" % camera_manager.current_camera.zoom.x
+    texture_rect_label.text = "%s\n%s" % [Format.format_position(texture_rect.get_canvas_transform().origin), Format.format_position(texture_rect.get_screen_transform().origin)]
+    king_label.text = "%s\n%s" % [Format.format_position(game.king.global_position), Format.format_position(game.king.get_screen_transform().origin)]
+    priest_label.text = "%s\n%s" % [Format.format_position(game.priest.global_position), Format.format_position(game.priest.get_screen_transform().origin)]
+    window_size_label.text = "%s\n%s" % [Format.format_size(get_window().size), Format.format_size((game.get_viewport() as SubViewport).size)]
+
+    camera_zoom_slider.value = current_camera.zoom.x
+    camera_zoom_label.text = "%.2f" % current_camera.zoom.x
     king_speed_slider.value = game.king_speed
     king_speed_label.text = "%.2f" % game.king_speed
     priest_speed_slider.value = game.priest_speed
@@ -43,9 +58,9 @@ func _process(delta: float) -> void:
 func _draw() -> void:
     DebugDraw.draw_axes(self, size / 2.0, "GUI center", Color.WHEAT)
 
-    var cam_delta := camera_manager.current_camera.get_target_position() - camera_manager.current_camera.get_screen_center_position()
-    draw_circle(camera_manager.current_camera.get_screen_transform().origin, 10, Color.TURQUOISE, false, 2)
-    draw_circle(camera_manager.current_camera.get_screen_transform().origin - cam_delta, 10, Color.PURPLE, false, 2)
+    var coords_on_game_sub_viewport_canvas := game.get_global_transform_with_canvas() * camera_manager.current_camera.global_position
+    var local_gui_coords := get_global_transform_with_canvas().affine_inverse() * coords_on_game_sub_viewport_canvas
+    DebugDraw.draw_labeled_circle(self, local_gui_coords, 10, Color.GREEN, 1, "Camera global_position: %s" % [Format.format_position(camera_manager.current_camera.global_position)])
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -64,14 +79,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
         camera_manager.toggle_camera_smoothing()
     elif event.is_action_pressed("quit"):
         get_tree().quit()
-
-
-func format_position(vec: Vector2) -> String:
-    return "%.2f / %.2f" % [vec.x, vec.y]
-
-
-func format_size(vec: Vector2i) -> String:
-    return "%d×%d" % [vec.x, vec.y]
 
 
 func _on_camera_zoom_slider_value_changed(value: float) -> void:
