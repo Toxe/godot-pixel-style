@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://c0s1ghhdkg1y5"]
 
-[ext_resource type="Script" uid="uid://b0m7te8rndoge" path="res://scenes/gui.gd" id="1_efmwq"]
+[ext_resource type="Script" uid="uid://b0m7te8rndoge" path="res://scenes/ui.gd" id="1_efmwq"]
 
-[node name="GUI" type="PanelContainer" unique_id=583806817]
+[node name="UI" type="PanelContainer" unique_id=583806817]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -159,7 +159,7 @@ text = "???"
 layout_mode = 2
 size_flags_vertical = 0
 text = "Toggle Fullscreen: F
-Toggle GUI: G
+Toggle UI: U
 Switch Camera: C
 Move Camera Position: Arrow Keys
 Move Camera Offset: Ctrl + Arrow Keys

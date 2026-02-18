@@ -1,4 +1,4 @@
-class_name GUI extends Control
+class_name UI extends Control
 
 @export var game: Game
 @export var camera_manager: CameraManager
@@ -56,15 +56,15 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-    DebugDraw.draw_axes(self, size / 2.0, "GUI center", Color.WHEAT, Color.BLACK)
+    DebugDraw.draw_axes(self, size / 2.0, "UI center", Color.WHEAT, Color.BLACK)
 
     var camera_target_position_plus_offset := camera_manager.current_camera.get_target_position() + camera_manager.current_camera.offset
-    DebugDraw.draw_labeled_circle(self, transform_to_gui_coords(camera_target_position_plus_offset), 6, Color.YELLOW, Color.BLACK, 1, ["🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset)]])
-    DebugDraw.draw_labeled_circle(self, transform_to_gui_coords(camera_manager.current_camera.get_screen_center_position()), 10, Color.GREEN, Color.BLACK, 1, ["🎥 screen_center_position: %s" % [Format.format_position(camera_manager.current_camera.get_screen_center_position())]])
+    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_target_position_plus_offset), 6, Color.YELLOW, Color.BLACK, 1, ["🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset)]])
+    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), 10, Color.GREEN, Color.BLACK, 1, ["🎥 screen_center_position: %s" % [Format.format_position(camera_manager.current_camera.get_screen_center_position())]])
 
     if !camera_manager.current_camera.offset.is_zero_approx():
-        var from := transform_to_gui_coords(camera_manager.current_camera.get_target_position())
-        var to := transform_to_gui_coords(camera_target_position_plus_offset)
+        var from := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position())
+        var to := transform_world_to_ui_coords(camera_target_position_plus_offset)
         draw_line(from, to, Color.LIGHT_GRAY, 0.5)
         DebugDraw.draw_labeled_circle(self, from, 3, Color.LIGHT_GRAY, Color.BLACK, 0.5, ["🎥 target_position (without offset): %s" % [Format.format_position(camera_manager.current_camera.get_target_position())]])
 
@@ -73,7 +73,7 @@ func _draw() -> void:
     var screen_coords := transform_ui_to_screen_coords(mouse_coords)
     var lines: Array[String] = [
         "world: %s" % [Format.format_position(world_coords)],
-        "gui: %s" % [Format.format_position(mouse_coords)],
+        "ui: %s" % [Format.format_position(mouse_coords)],
         "screen: %s" % [Format.format_position(screen_coords, true)],
     ]
     DebugDraw.draw_labeled_circle(self, mouse_coords, 3, Color.LIGHT_GRAY, Color.BLACK, 0.25, lines)
@@ -85,7 +85,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
             DisplayServer.window_set_mode(DisplayServer.WindowMode.WINDOW_MODE_WINDOWED)
         else:
             DisplayServer.window_set_mode(DisplayServer.WindowMode.WINDOW_MODE_FULLSCREEN)
-    elif event.is_action_pressed("toggle_gui"):
+    elif event.is_action_pressed("toggle_ui"):
         ($HBoxContainer as Control).visible = !($HBoxContainer as Control).visible
     elif event.is_action_pressed("switch_camera"):
         camera_manager.next_camera()
@@ -97,10 +97,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
         get_tree().quit()
 
 
-func transform_to_gui_coords(pos: Vector2) -> Vector2:
-    var coords_on_game_sub_viewport_canvas := game.get_global_transform_with_canvas() * pos
-    var gui_coords := get_global_transform_with_canvas().affine_inverse() * coords_on_game_sub_viewport_canvas
-    return gui_coords
+func transform_world_to_ui_coords(pos: Vector2) -> Vector2:
+    var coords_on_world_canvas := game.get_global_transform_with_canvas() * pos
+    var coords_on_ui_canvas := get_global_transform_with_canvas().affine_inverse() * coords_on_world_canvas
+    return coords_on_ui_canvas
 
 
 func transform_ui_to_world_coords(pos: Vector2) -> Vector2:
