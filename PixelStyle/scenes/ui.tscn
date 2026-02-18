@@ -162,8 +162,8 @@ text = "Toggle Fullscreen: F
 Toggle Debug: D
 Toggle UI: U
 Switch Camera: C
-Move Camera Position: Arrow Keys
-Move Camera Offset: Ctrl + Arrow Keys
+Move Camera (Offset): Arrow Keys
+Move Camera (Position): Ctrl + Arrow Keys
 Slow Camera Movement: Hold Shift
 Recenter Camera: R
 Toggle Camera Smoothing: S

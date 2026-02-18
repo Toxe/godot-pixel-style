@@ -24,12 +24,12 @@ func _process(delta: float) -> void:
     var current_camera := camera_manager.current_camera
     var camera_movement := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
-    if camera_movement != Vector2.ZERO:
+    if !camera_movement.is_zero_approx():
         var camera_speed := 0.1 if Input.is_physical_key_pressed(Key.KEY_SHIFT) else 1.0
         if Input.is_physical_key_pressed(Key.KEY_CTRL):
-            current_camera.offset += camera_movement * 100.0 * delta * camera_speed
-        else:
             current_camera.position += camera_movement * 100.0 * delta * camera_speed
+        else:
+            current_camera.offset += camera_movement * 100.0 * delta * camera_speed
 
     frame_label.text = "%0.6f\n%d\n%0.1f" % [Time.get_ticks_usec() / 1_000_000.0, Engine.get_process_frames(), Performance.get_monitor(Performance.TIME_FPS)]
     camera_label.text = "%s\n%s\n%s\n%s\n%s\n%s\n%s" % [
