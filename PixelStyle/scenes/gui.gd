@@ -58,9 +58,15 @@ func _process(delta: float) -> void:
 func _draw() -> void:
     DebugDraw.draw_axes(self, size / 2.0, "GUI center", Color.WHEAT)
 
-    var coords_on_game_sub_viewport_canvas := game.get_global_transform_with_canvas() * camera_manager.current_camera.global_position
-    var local_gui_coords := get_global_transform_with_canvas().affine_inverse() * coords_on_game_sub_viewport_canvas
-    DebugDraw.draw_labeled_circle(self, local_gui_coords, 10, Color.GREEN, 1, "Camera global_position: %s" % [Format.format_position(camera_manager.current_camera.global_position)])
+    var camera_target_position_plus_offset := camera_manager.current_camera.get_target_position() + camera_manager.current_camera.offset
+    DebugDraw.draw_labeled_circle(self, transform_to_gui_coords(camera_target_position_plus_offset), 6, Color.YELLOW, 1, "🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset)])
+    DebugDraw.draw_labeled_circle(self, transform_to_gui_coords(camera_manager.current_camera.get_screen_center_position()), 10, Color.GREEN, 1, "🎥 screen_center_position: %s" % [Format.format_position(camera_manager.current_camera.get_screen_center_position())])
+
+    if !camera_manager.current_camera.offset.is_zero_approx():
+        var from := transform_to_gui_coords(camera_manager.current_camera.get_target_position())
+        var to := transform_to_gui_coords(camera_target_position_plus_offset)
+        draw_line(from, to, Color.LIGHT_GRAY, 0.5)
+        DebugDraw.draw_labeled_circle(self, from, 3, Color.LIGHT_GRAY, 0.5, "🎥 target_position (without offset): %s" % [Format.format_position(camera_manager.current_camera.get_target_position())])
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -79,6 +85,12 @@ func _unhandled_key_input(event: InputEvent) -> void:
         camera_manager.toggle_camera_smoothing()
     elif event.is_action_pressed("quit"):
         get_tree().quit()
+
+
+func transform_to_gui_coords(pos: Vector2) -> Vector2:
+    var coords_on_game_sub_viewport_canvas := game.get_global_transform_with_canvas() * pos
+    var gui_coords := get_global_transform_with_canvas().affine_inverse() * coords_on_game_sub_viewport_canvas
+    return gui_coords
 
 
 func _on_camera_zoom_slider_value_changed(value: float) -> void:
