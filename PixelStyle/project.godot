@@ -33,6 +33,10 @@ window/size/window_height_override=1080
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 
+[gui]
+
+theme/custom="uid://di14qk6sdexpx"
+
 [input]
 
 toggle_gui={

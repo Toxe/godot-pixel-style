@@ -17,4 +17,4 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-    DebugDraw.draw_axes(self, Vector2((get_viewport() as SubViewport).size) / 2.0, "world center", Color.WHEAT)
+    DebugDraw.draw_axes(self, Vector2((get_viewport() as SubViewport).size) / 2.0, "world center", Color.WHEAT, Color.BLACK)

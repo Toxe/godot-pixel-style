@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://c0s1ghhdkg1y5"]
 
 [ext_resource type="Script" uid="uid://b0m7te8rndoge" path="res://scenes/gui.gd" id="1_efmwq"]
-[ext_resource type="Theme" uid="uid://di14qk6sdexpx" path="res://scenes/theme.tres" id="1_mfius"]
 
 [node name="GUI" type="PanelContainer" unique_id=583806817]
 anchors_preset = 15
@@ -9,7 +8,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_mfius")
 script = ExtResource("1_efmwq")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=907191759]

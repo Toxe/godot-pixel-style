@@ -1,13 +1,13 @@
 [gd_resource type="Theme" format=3 uid="uid://di14qk6sdexpx"]
 
-[ext_resource type="FontFile" uid="uid://jxpiue4a0r2q" path="res://assets/fonts/NotoSans.ttf" id="1_nx7ni"]
+[ext_resource type="FontFile" uid="uid://jxpiue4a0r2q" path="res://assets/fonts/NotoSans.ttf" id="1_e1x85"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nx7ni"]
 content_margin_left = 2.0
 content_margin_right = 2.0
 
 [sub_resource type="FontVariation" id="FontVariation_jm5n4"]
-base_font = ExtResource("1_nx7ni")
+base_font = ExtResource("1_e1x85")
 variation_opentype = {
 2003072104: 62,
 2003265652: 400
