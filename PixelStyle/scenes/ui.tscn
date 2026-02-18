@@ -159,6 +159,7 @@ text = "???"
 layout_mode = 2
 size_flags_vertical = 0
 text = "Toggle Fullscreen: F
+Toggle Debug: D
 Toggle UI: U
 Switch Camera: C
 Move Camera Position: Arrow Keys
