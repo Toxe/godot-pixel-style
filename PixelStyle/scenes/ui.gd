@@ -64,8 +64,9 @@ func _draw() -> void:
     DebugDraw.draw_axes(self, size / 2.0, "UI center", Color.WHEAT, Color.BLACK)
 
     var camera_target_position_plus_offset := camera_manager.current_camera.get_target_position() + camera_manager.current_camera.offset
-    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_target_position_plus_offset), 6, Color.YELLOW, Color.BLACK, 1, ["🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset)]])
-    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), 10, Color.GREEN, Color.BLACK, 1, ["🎥 screen_center_position: %s" % [Format.format_position(camera_manager.current_camera.get_screen_center_position())]])
+    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_target_position_plus_offset), 5, Color.YELLOW, Color.BLACK, 1, ["🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset)]])
+    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), 7, Color.GREEN, Color.BLACK, 1, ["🎥 screen_center_position: %s" % [Format.format_position(camera_manager.current_camera.get_screen_center_position())]])
+    draw_dashed_line(transform_world_to_ui_coords(camera_target_position_plus_offset), transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), Color.GREEN, 0.5, 1, false)
 
     if !camera_manager.current_camera.position.is_zero_approx():
         var from := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position() - camera_manager.current_camera.position)
