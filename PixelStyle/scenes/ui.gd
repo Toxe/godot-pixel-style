@@ -67,6 +67,12 @@ func _draw() -> void:
     DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_target_position_plus_offset), 6, Color.YELLOW, Color.BLACK, 1, ["🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset)]])
     DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), 10, Color.GREEN, Color.BLACK, 1, ["🎥 screen_center_position: %s" % [Format.format_position(camera_manager.current_camera.get_screen_center_position())]])
 
+    if !camera_manager.current_camera.position.is_zero_approx():
+        var from := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position() - camera_manager.current_camera.position)
+        var to := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position())
+        draw_line(from, to, Color.DARK_GRAY, 0.5)
+        DebugDraw.draw_labeled_circle(self, from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 position: %s" % [Format.format_position(camera_manager.current_camera.position)]])
+
     if !camera_manager.current_camera.offset.is_zero_approx():
         var from := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position())
         var to := transform_world_to_ui_coords(camera_target_position_plus_offset)
