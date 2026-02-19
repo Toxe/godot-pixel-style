@@ -25,16 +25,16 @@ func _process(_delta: float) -> void:
     camera_label.text = "%s\n%s\n%s\n%s\n%s\n%s\n%s" % [
         current_camera.name,
         "on" if current_camera.position_smoothing_enabled else "off",
-        Format.format_position(current_camera.position),
-        Format.format_position(current_camera.global_position),
-        Format.format_position(current_camera.get_target_position()),
-        Format.format_position(current_camera.offset),
-        Format.format_position(current_camera.get_screen_center_position()),
+        Format.format_position(current_camera.position, camera_manager.get_current_camera_coords_type()),
+        Format.format_position(current_camera.global_position, camera_manager.get_current_camera_coords_type()),
+        Format.format_position(current_camera.get_target_position(), camera_manager.get_current_camera_coords_type()),
+        Format.format_position(current_camera.offset, camera_manager.get_current_camera_coords_type()),
+        Format.format_position(current_camera.get_screen_center_position(), camera_manager.get_current_camera_coords_type()),
     ]
 
     texture_rect_label.text = "%s\n%s" % [Format.format_position(texture_rect.get_canvas_transform().origin), Format.format_position(texture_rect.get_screen_transform().origin)]
-    king_label.text = "%s\n%s" % [Format.format_position(game.king.global_position), Format.format_position(game.king.get_screen_transform().origin)]
-    priest_label.text = "%s\n%s" % [Format.format_position(game.priest.global_position), Format.format_position(game.priest.get_screen_transform().origin)]
+    king_label.text = "%s\n%s" % [Format.format_position(game.king.global_position, CameraManager.CoordsType.World), Format.format_position(game.king.get_screen_transform().origin, CameraManager.CoordsType.World)]
+    priest_label.text = "%s\n%s" % [Format.format_position(game.priest.global_position, CameraManager.CoordsType.World), Format.format_position(game.priest.get_screen_transform().origin, CameraManager.CoordsType.World)]
     window_size_label.text = "%s\n%s" % [Format.format_size(get_window().size), Format.format_size((game.get_viewport() as SubViewport).size)]
 
     camera_zoom_slider.value = current_camera.zoom.x
@@ -51,32 +51,38 @@ func _draw() -> void:
     if !DebugDraw.draw_enabled:
         return
 
-    DebugDraw.draw_axes(self, size / 2.0, "UI center", Color.WHEAT, Color.BLACK)
+    DebugDraw.draw_axes(self, size / 2.0, "UI center: %s" % [Format.format_position(size / 2.0, CameraManager.CoordsType.UI, true)], Color.WHEAT, Color.BLACK)
 
     var camera_target_position_plus_offset := camera_manager.current_camera.get_target_position() + camera_manager.current_camera.offset
-    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_target_position_plus_offset), 5, Color.YELLOW, Color.BLACK, 1, ["🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset)]])
-    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), 7, Color.GREEN, Color.BLACK, 1, ["🎥 screen_center_position: %s" % [Format.format_position(camera_manager.current_camera.get_screen_center_position())]])
+    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_target_position_plus_offset), 5, Color.YELLOW, Color.BLACK, 1, [
+        "🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset, camera_manager.get_current_camera_coords_type())],
+        "%s" % [Format.format_position(transform_world_to_ui_coords(camera_target_position_plus_offset), CameraManager.CoordsType.UI)],
+    ])
+    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), 7, Color.GREEN, Color.BLACK, 1, [
+        "🎥 screen_center_position: %s" % [Format.format_position(camera_manager.current_camera.get_screen_center_position(), camera_manager.get_current_camera_coords_type())],
+        "%s" % [Format.format_position(transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), CameraManager.CoordsType.UI)],
+    ])
     draw_dashed_line(transform_world_to_ui_coords(camera_target_position_plus_offset), transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), Color.GREEN, 0.5, 1, false)
 
     if !camera_manager.current_camera.position.is_zero_approx():
         var from := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position() - camera_manager.current_camera.position)
         var to := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position())
         draw_line(from, to, Color.DARK_GRAY, 0.5)
-        DebugDraw.draw_labeled_circle(self, from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 position: %s" % [Format.format_position(camera_manager.current_camera.position)]])
+        DebugDraw.draw_labeled_circle(self, from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 position: %s" % [Format.format_position(camera_manager.current_camera.position, camera_manager.get_current_camera_coords_type())]])
 
     if !camera_manager.current_camera.offset.is_zero_approx():
         var from := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position())
         var to := transform_world_to_ui_coords(camera_target_position_plus_offset)
         draw_line(from, to, Color.LIGHT_GRAY, 0.5)
-        DebugDraw.draw_labeled_circle(self, from, 3, Color.LIGHT_GRAY, Color.BLACK, 0.5, ["🎥 target_position (without offset): %s" % [Format.format_position(camera_manager.current_camera.get_target_position())]])
+        DebugDraw.draw_labeled_circle(self, from, 3, Color.LIGHT_GRAY, Color.BLACK, 0.5, ["🎥 target_position (without offset): %s" % [Format.format_position(camera_manager.current_camera.get_target_position(), camera_manager.get_current_camera_coords_type())]])
 
     var mouse_coords := get_local_mouse_position()
     var world_coords := transform_ui_to_world_coords(mouse_coords)
     var screen_coords := transform_ui_to_screen_coords(mouse_coords)
     var lines: Array[String] = [
-        "world: %s" % [Format.format_position(world_coords)],
-        "ui: %s" % [Format.format_position(mouse_coords)],
-        "screen: %s" % [Format.format_position(screen_coords, true)],
+        Format.format_position(world_coords, CameraManager.CoordsType.World),
+        Format.format_position(mouse_coords, CameraManager.CoordsType.UI),
+        Format.format_position(screen_coords, CameraManager.CoordsType.Screen, true),
     ]
     DebugDraw.draw_labeled_circle(self, mouse_coords, 3, Color.LIGHT_GRAY, Color.BLACK, 0.25, lines)
 

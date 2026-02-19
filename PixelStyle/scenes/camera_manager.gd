@@ -1,5 +1,12 @@
 class_name CameraManager extends Node
 
+enum CoordsType {
+    Unknown,
+    World,
+    UI,
+    Screen,
+}
+
 @export var cameras: Array[Camera2D]
 
 @onready var current_camera: Camera2D = _get_first_enabled_camera()
@@ -33,3 +40,10 @@ func recenter_camera() -> void:
 
 func toggle_camera_smoothing() -> void:
     current_camera.position_smoothing_enabled = !current_camera.position_smoothing_enabled
+
+
+func get_current_camera_coords_type() -> CoordsType:
+    match current_camera.name:
+        "GameCamera": return CoordsType.World
+        "MainCamera": return CoordsType.UI
+        _: return CoordsType.Unknown
