@@ -11,9 +11,11 @@ const font_outline_size := 2
 
 static var project_theme := ThemeDB.get_project_theme()
 
+static var draw_enabled := true
+
 
 static func draw_label(canvas_item: CanvasItem, label_position: Vector2, lines: Array[String], text_color: Color, outline_color: Color, label_anchor: Vector2) -> void:
-    if canvas_item.visible:
+    if draw_enabled && canvas_item.visible:
         var viewport := canvas_item.get_viewport()
         var labels: Array[FittedText]
 
@@ -40,15 +42,16 @@ static func draw_label(canvas_item: CanvasItem, label_position: Vector2, lines: 
 
 
 static func draw_axes(canvas_item: CanvasItem, center: Vector2, text: String, color: Color, outline_color: Color) -> void:
-    var viewport_size := canvas_item.get_viewport_rect().size
-    canvas_item.draw_line(Vector2(center.x, 0), Vector2(center.x, viewport_size.y), color)
-    canvas_item.draw_line(Vector2(0, center.y), Vector2(viewport_size.x, center.y), color)
-    var label_position := Vector2(viewport_size.x - 1, center.y)
-    draw_label(canvas_item, label_position, ["%s (%s)" % [text, Format.format_position(center, true)]], color, outline_color, Vector2(1, 1))
+    if draw_enabled && canvas_item.visible:
+        var viewport_size := canvas_item.get_viewport_rect().size
+        canvas_item.draw_line(Vector2(center.x, 0), Vector2(center.x, viewport_size.y), color)
+        canvas_item.draw_line(Vector2(0, center.y), Vector2(viewport_size.x, center.y), color)
+        var label_position := Vector2(viewport_size.x - 1, center.y)
+        draw_label(canvas_item, label_position, ["%s (%s)" % [text, Format.format_position(center, true)]], color, outline_color, Vector2(1, 1))
 
 
 static func draw_labeled_circle(canvas_item: CanvasItem, pos: Vector2, radius: float, color: Color, outline_color: Color, width: float, lines: Array[String]) -> void:
-    if canvas_item.visible:
+    if draw_enabled && canvas_item.visible:
         canvas_item.draw_circle(pos, radius, color, false, width)
         var label_position := pos + Vector2(0, radius + roundf(float(font_size) / 2.0))
         draw_label(canvas_item, label_position, lines, color, outline_color, Vector2(0.5, 0))

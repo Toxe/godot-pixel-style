@@ -17,8 +17,6 @@ class_name UI extends Control
 @onready var priest_speed_label: Label = $HBoxContainer/VBoxContainer/GridContainer/PriestSpeedLabel
 @onready var window_size_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer5/WindowSizeLabel
 
-var debug_draw_enabled := true
-
 
 func _process(delta: float) -> void:
     var current_camera := camera_manager.current_camera
@@ -58,7 +56,7 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-    if !debug_draw_enabled:
+    if !DebugDraw.draw_enabled:
         return
 
     DebugDraw.draw_axes(self, size / 2.0, "UI center", Color.WHEAT, Color.BLACK)
@@ -100,7 +98,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
     elif event.is_action_pressed("toggle_ui"):
         ($HBoxContainer as Control).visible = !($HBoxContainer as Control).visible
     elif event.is_action_pressed("toggle_debug_draw"):
-        debug_draw_enabled = !debug_draw_enabled
+        DebugDraw.draw_enabled = !DebugDraw.draw_enabled
     elif event.is_action_pressed("switch_camera"):
         camera_manager.next_camera()
     elif event.is_action_pressed("recenter_camera"):
