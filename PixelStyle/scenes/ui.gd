@@ -99,6 +99,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
         ($HBoxContainer as Control).visible = !($HBoxContainer as Control).visible
     elif event.is_action_pressed("toggle_debug_draw"):
         DebugDraw.draw_enabled = !DebugDraw.draw_enabled
+    elif event.is_action_pressed("toggle_debug_text"):
+        DebugDraw.text_enabled = !DebugDraw.text_enabled
     elif event.is_action_pressed("switch_camera"):
         camera_manager.next_camera()
     elif event.is_action_pressed("recenter_camera"):

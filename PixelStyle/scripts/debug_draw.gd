@@ -12,10 +12,11 @@ const font_outline_size := 2
 static var project_theme := ThemeDB.get_project_theme()
 
 static var draw_enabled := true
+static var text_enabled := true
 
 
 static func draw_label(canvas_item: CanvasItem, label_position: Vector2, lines: Array[String], text_color: Color, outline_color: Color, label_anchor: Vector2) -> void:
-    if draw_enabled && canvas_item.visible:
+    if draw_enabled && text_enabled && canvas_item.visible:
         var viewport := canvas_item.get_viewport()
         var labels: Array[FittedText]
 
