@@ -5,6 +5,16 @@ class_name CameraManager extends Node
 @onready var current_camera: Camera2D = _get_first_enabled_camera()
 
 
+func _process(delta: float) -> void:
+    var camera_movement := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+    if !camera_movement.is_zero_approx():
+        var camera_speed := 0.1 if Input.is_physical_key_pressed(Key.KEY_SHIFT) else 1.0
+        if Input.is_physical_key_pressed(Key.KEY_CTRL):
+            current_camera.position += camera_movement * 100.0 * delta * camera_speed
+        else:
+            current_camera.offset += camera_movement * 100.0 * delta * camera_speed
+
+
 func _get_first_enabled_camera() -> Camera2D:
     return cameras.get(cameras.find_custom(func(c: Camera2D) -> bool: return c.enabled))
 
