@@ -51,31 +51,40 @@ func _draw() -> void:
     if !DebugDraw.draw_enabled:
         return
 
+    # axes
     DebugDraw.draw_axes(self, size / 2.0, "UI center: %s" % [Format.format_position(size / 2.0, CameraManager.CoordsType.UI, true)], Color.WHEAT, Color.BLACK)
 
-    var camera_target_position_plus_offset := camera_manager.current_camera.get_target_position() + camera_manager.current_camera.offset
+    # camera
+    var camera_position := camera_manager.current_camera.position
+    var camera_offset := camera_manager.current_camera.offset
+    var camera_target_position := camera_manager.current_camera.get_target_position()
+    var camera_target_position_plus_offset := camera_target_position + camera_offset
+    var camera_screen_center_position := camera_manager.current_camera.get_screen_center_position()
+    var camera_coords_type := camera_manager.get_current_camera_coords_type()
+
     DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_target_position_plus_offset), 5, Color.YELLOW, Color.BLACK, 1, [
-        "🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset, camera_manager.get_current_camera_coords_type())],
+        "🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset, camera_coords_type)],
         "%s" % [Format.format_position(transform_world_to_ui_coords(camera_target_position_plus_offset), CameraManager.CoordsType.UI)],
     ])
-    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), 7, Color.GREEN, Color.BLACK, 1, [
-        "🎥 screen_center_position: %s" % [Format.format_position(camera_manager.current_camera.get_screen_center_position(), camera_manager.get_current_camera_coords_type())],
-        "%s" % [Format.format_position(transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), CameraManager.CoordsType.UI)],
+    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_screen_center_position), 7, Color.GREEN, Color.BLACK, 1, [
+        "🎥 screen_center_position: %s" % [Format.format_position(camera_screen_center_position, camera_coords_type)],
+        "%s" % [Format.format_position(transform_world_to_ui_coords(camera_screen_center_position), CameraManager.CoordsType.UI)],
     ])
-    draw_dashed_line(transform_world_to_ui_coords(camera_target_position_plus_offset), transform_world_to_ui_coords(camera_manager.current_camera.get_screen_center_position()), Color.GREEN, 0.5, 1, false)
+    draw_dashed_line(transform_world_to_ui_coords(camera_target_position_plus_offset), transform_world_to_ui_coords(camera_screen_center_position), Color.GREEN, 0.5, 1, false)
 
-    if !camera_manager.current_camera.position.is_zero_approx():
-        var from := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position() - camera_manager.current_camera.position)
-        var to := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position())
+    if !camera_position.is_zero_approx():
+        var from := transform_world_to_ui_coords(camera_target_position - camera_position)
+        var to := transform_world_to_ui_coords(camera_target_position)
         draw_line(from, to, Color.DARK_GRAY, 0.5)
-        DebugDraw.draw_labeled_circle(self, from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 position: %s" % [Format.format_position(camera_manager.current_camera.position, camera_manager.get_current_camera_coords_type())]])
+        DebugDraw.draw_labeled_circle(self, from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 position: %s" % [Format.format_position(camera_position, camera_coords_type)]])
 
-    if !camera_manager.current_camera.offset.is_zero_approx():
-        var from := transform_world_to_ui_coords(camera_manager.current_camera.get_target_position())
+    if !camera_offset.is_zero_approx():
+        var from := transform_world_to_ui_coords(camera_target_position)
         var to := transform_world_to_ui_coords(camera_target_position_plus_offset)
         draw_line(from, to, Color.LIGHT_GRAY, 0.5)
-        DebugDraw.draw_labeled_circle(self, from, 3, Color.LIGHT_GRAY, Color.BLACK, 0.5, ["🎥 target_position (without offset): %s" % [Format.format_position(camera_manager.current_camera.get_target_position(), camera_manager.get_current_camera_coords_type())]])
+        DebugDraw.draw_labeled_circle(self, from, 3, Color.LIGHT_GRAY, Color.BLACK, 0.5, ["🎥 target_position (without offset): %s" % [Format.format_position(camera_target_position, camera_coords_type)]])
 
+    # mouse
     var mouse_coords := get_local_mouse_position()
     var world_coords := transform_ui_to_world_coords(mouse_coords)
     var screen_coords := transform_ui_to_screen_coords(mouse_coords)
