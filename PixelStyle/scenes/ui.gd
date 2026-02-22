@@ -62,31 +62,38 @@ func _draw() -> void:
     var camera_screen_center_position := camera_manager.current_camera.get_screen_center_position()
     var camera_coords_type := camera_manager.get_current_camera_coords_type()
 
-    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_target_position_plus_offset), 5, Color.YELLOW, Color.BLACK, 1, [
-        "🎥 target_position + offset: %s" % [Format.format_position(camera_target_position_plus_offset, camera_coords_type)],
-        "%s" % [Format.format_position(transform_world_to_ui_coords(camera_target_position_plus_offset), CameraManager.CoordsType.UI)],
+    assert(camera_coords_type in [CameraManager.CoordsType.World, CameraManager.CoordsType.UI])
+
+    var ui_coords_camera_target_position_plus_offset := transform_to_ui_coords(camera_coords_type, camera_target_position_plus_offset)
+    var ui_coords_camera_screen_center_position := transform_to_ui_coords(camera_coords_type, camera_screen_center_position)
+    var world_coords_camera_target_position_plus_offset := transform_to_world_coords(camera_coords_type, camera_target_position_plus_offset)
+    var world_coords_camera_screen_center_position := transform_to_world_coords(camera_coords_type, camera_screen_center_position)
+
+    draw_dashed_line(ui_coords_camera_target_position_plus_offset, ui_coords_camera_screen_center_position, Color.GREEN, 0.5, 1, false)
+    DebugDraw.draw_labeled_circle(self, ui_coords_camera_target_position_plus_offset, 5, Color.YELLOW, Color.BLACK, 1, [
+        "🎥 target_position + offset: %s" % [Format.format_position(world_coords_camera_target_position_plus_offset, CameraManager.CoordsType.World)],
+        "%s" % [Format.format_position(ui_coords_camera_target_position_plus_offset, CameraManager.CoordsType.UI)],
     ])
-    DebugDraw.draw_labeled_circle(self, transform_world_to_ui_coords(camera_screen_center_position), 7, Color.GREEN, Color.BLACK, 1, [
-        "🎥 screen_center_position: %s" % [Format.format_position(camera_screen_center_position, camera_coords_type)],
-        "%s" % [Format.format_position(transform_world_to_ui_coords(camera_screen_center_position), CameraManager.CoordsType.UI)],
+    DebugDraw.draw_labeled_circle(self, ui_coords_camera_screen_center_position, 7, Color.GREEN, Color.BLACK, 1, [
+        "🎥 screen_center_position: %s" % [Format.format_position(world_coords_camera_screen_center_position, CameraManager.CoordsType.World)],
+        "%s" % [Format.format_position(ui_coords_camera_screen_center_position, CameraManager.CoordsType.UI)],
     ])
-    draw_dashed_line(transform_world_to_ui_coords(camera_target_position_plus_offset), transform_world_to_ui_coords(camera_screen_center_position), Color.GREEN, 0.5, 1, false)
 
     if !camera_position.is_zero_approx():
-        var from := transform_world_to_ui_coords(camera_target_position - camera_position)
-        var to := transform_world_to_ui_coords(camera_target_position)
-        draw_line(from, to, Color.DARK_GRAY, 0.5)
-        DebugDraw.draw_labeled_circle(self, from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 position: %s" % [Format.format_position(camera_position, camera_coords_type)]])
+        var ui_coords_from := transform_to_ui_coords(camera_coords_type, camera_target_position - camera_position)
+        var ui_coords_to := transform_to_ui_coords(camera_coords_type, camera_target_position)
+        draw_line(ui_coords_from, ui_coords_to, Color.DARK_GRAY, 0.5)
+        DebugDraw.draw_labeled_circle(self, ui_coords_from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 position: %s" % [Format.format_position(camera_position, camera_coords_type)]])
 
     if !camera_offset.is_zero_approx():
-        var from := transform_world_to_ui_coords(camera_target_position)
-        var to := transform_world_to_ui_coords(camera_target_position_plus_offset)
-        draw_line(from, to, Color.LIGHT_GRAY, 0.5)
-        DebugDraw.draw_labeled_circle(self, from, 3, Color.LIGHT_GRAY, Color.BLACK, 0.5, ["🎥 target_position (without offset): %s" % [Format.format_position(camera_target_position, camera_coords_type)]])
+        var ui_coords_from := transform_to_ui_coords(camera_coords_type, camera_target_position)
+        var ui_coords_to := transform_to_ui_coords(camera_coords_type, camera_target_position_plus_offset)
+        draw_line(ui_coords_from, ui_coords_to, Color.DARK_GRAY, 0.5)
+        DebugDraw.draw_labeled_circle(self, ui_coords_from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 target_position (without offset): %s" % [Format.format_position(camera_target_position, camera_coords_type)]])
 
     # mouse
     var mouse_coords := get_local_mouse_position()
-    var world_coords := transform_ui_to_world_coords(mouse_coords)
+    var world_coords := transform_to_world_coords(CameraManager.CoordsType.UI, mouse_coords)
     var screen_coords := transform_ui_to_screen_coords(mouse_coords)
     var lines: Array[String] = [
         Format.format_position(world_coords, CameraManager.CoordsType.World),
@@ -118,20 +125,34 @@ func _unhandled_key_input(event: InputEvent) -> void:
         get_tree().quit()
 
 
-func transform_world_to_ui_coords(pos: Vector2) -> Vector2:
-    var coords_on_world_canvas := game.get_global_transform_with_canvas() * pos
-    var coords_on_ui_canvas := get_global_transform_with_canvas().affine_inverse() * coords_on_world_canvas
+func transform_to_ui_coords(from: CameraManager.CoordsType, coords: Vector2) -> Vector2:
+    assert(from in [CameraManager.CoordsType.World, CameraManager.CoordsType.UI])
+
+    if from == CameraManager.CoordsType.UI:
+        return coords
+
+    var world_coords := coords
+    var coords_on_world_canvas := game.get_global_transform_with_canvas() * world_coords
+    var coords_on_texture_rect := texture_rect.get_global_transform_with_canvas() * coords_on_world_canvas
+    var coords_on_ui_canvas := get_global_transform_with_canvas().affine_inverse() * coords_on_texture_rect
     return coords_on_ui_canvas
 
 
-func transform_ui_to_world_coords(pos: Vector2) -> Vector2:
-    var coords_on_ui_canvas := get_global_transform_with_canvas() * pos
-    var coords_on_world_canvas := game.get_global_transform_with_canvas().affine_inverse() * coords_on_ui_canvas
+func transform_to_world_coords(from: CameraManager.CoordsType, coords: Vector2) -> Vector2:
+    assert(from in [CameraManager.CoordsType.World, CameraManager.CoordsType.UI])
+
+    if from == CameraManager.CoordsType.World:
+        return coords
+
+    var ui_coords := coords
+    var coords_on_ui_canvas := get_global_transform_with_canvas() * ui_coords
+    var coords_on_texture_rect := texture_rect.get_global_transform_with_canvas().affine_inverse() * coords_on_ui_canvas
+    var coords_on_world_canvas := game.get_global_transform_with_canvas().affine_inverse() * coords_on_texture_rect
     return coords_on_world_canvas
 
 
-func transform_ui_to_screen_coords(pos: Vector2) -> Vector2:
-    var coords_on_ui_canvas := get_global_transform_with_canvas() * pos
+func transform_ui_to_screen_coords(ui_coords: Vector2) -> Vector2:
+    var coords_on_ui_canvas := get_global_transform_with_canvas() * ui_coords
     var coords_on_screen := get_viewport().get_screen_transform() * coords_on_ui_canvas
     return coords_on_screen
 
