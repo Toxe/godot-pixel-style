@@ -17,5 +17,5 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-    var center := Vector2((get_viewport() as SubViewport).size) / 2.0
+    var center := get_viewport_rect().get_center()
     DebugDraw.draw_axes(self, center, "world center: %s" % [Format.format_position(center, CameraManager.CoordsType.World, true)], Color.WHEAT, Color.BLACK)
