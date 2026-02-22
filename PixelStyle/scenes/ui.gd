@@ -19,30 +19,34 @@ class_name UI extends Control
 
 
 func _process(_delta: float) -> void:
-    var current_camera := camera_manager.current_camera
-
     frame_label.text = "%0.6f\n%d\n%0.1f" % [Time.get_ticks_usec() / 1_000_000.0, Engine.get_process_frames(), Performance.get_monitor(Performance.TIME_FPS)]
-    camera_label.text = "%s\n%s\n%s\n%s\n%s\n%s\n%s" % [
-        current_camera.name,
-        "on" if current_camera.position_smoothing_enabled else "off",
-        Format.format_position(current_camera.position, camera_manager.get_current_camera_coords_type()),
-        Format.format_position(current_camera.global_position, camera_manager.get_current_camera_coords_type()),
-        Format.format_position(current_camera.get_target_position(), camera_manager.get_current_camera_coords_type()),
-        Format.format_position(current_camera.offset, camera_manager.get_current_camera_coords_type()),
-        Format.format_position(current_camera.get_screen_center_position(), camera_manager.get_current_camera_coords_type()),
-    ]
 
-    texture_rect_label.text = "%s\n%s" % [Format.format_position(texture_rect.get_canvas_transform().origin), Format.format_position(texture_rect.get_screen_transform().origin)]
-    king_label.text = "%s\n%s" % [Format.format_position(game.king.global_position, CameraManager.CoordsType.World), Format.format_position(game.king.get_screen_transform().origin, CameraManager.CoordsType.World)]
-    priest_label.text = "%s\n%s" % [Format.format_position(game.priest.global_position, CameraManager.CoordsType.World), Format.format_position(game.priest.get_screen_transform().origin, CameraManager.CoordsType.World)]
-    window_size_label.text = "%s\n%s" % [Format.format_size(get_window().size), Format.format_size((game.get_viewport() as SubViewport).size)]
+    if camera_manager && camera_manager.current_camera:
+        camera_label.text = "%s\n%s\n%s\n%s\n%s\n%s\n%s" % [
+            camera_manager.current_camera.name,
+            "on" if camera_manager.current_camera.position_smoothing_enabled else "off",
+            Format.format_position(camera_manager.current_camera.position, camera_manager.get_current_camera_coords_type()),
+            Format.format_position(camera_manager.current_camera.global_position, camera_manager.get_current_camera_coords_type()),
+            Format.format_position(camera_manager.current_camera.get_target_position(), camera_manager.get_current_camera_coords_type()),
+            Format.format_position(camera_manager.current_camera.offset, camera_manager.get_current_camera_coords_type()),
+            Format.format_position(camera_manager.current_camera.get_screen_center_position(), camera_manager.get_current_camera_coords_type()),
+        ]
 
-    camera_zoom_slider.value = current_camera.zoom.x
-    camera_zoom_label.text = "%.2f" % current_camera.zoom.x
-    king_speed_slider.value = game.king_speed
-    king_speed_label.text = "%.2f" % game.king_speed
-    priest_speed_slider.value = game.priest_speed
-    priest_speed_label.text = "%.2f (pixels per frame)" % game.priest_speed
+        camera_zoom_slider.value = camera_manager.current_camera.zoom.x
+        camera_zoom_label.text = "%.2f" % camera_manager.current_camera.zoom.x
+
+    if texture_rect:
+        texture_rect_label.text = "%s\n%s" % [Format.format_position(texture_rect.get_canvas_transform().origin), Format.format_position(texture_rect.get_screen_transform().origin)]
+
+    if game:
+        king_label.text = "%s\n%s" % [Format.format_position(game.king.global_position, CameraManager.CoordsType.World), Format.format_position(game.king.get_screen_transform().origin, CameraManager.CoordsType.World)]
+        priest_label.text = "%s\n%s" % [Format.format_position(game.priest.global_position, CameraManager.CoordsType.World), Format.format_position(game.priest.get_screen_transform().origin, CameraManager.CoordsType.World)]
+        window_size_label.text = "%s\n%s" % [Format.format_size(get_window().size), Format.format_size((game.get_viewport() as SubViewport).size)]
+
+        king_speed_slider.value = game.king_speed
+        king_speed_label.text = "%.2f" % game.king_speed
+        priest_speed_slider.value = game.priest_speed
+        priest_speed_label.text = "%.2f (pixels per frame)" % game.priest_speed
 
     queue_redraw()
 
@@ -55,51 +59,51 @@ func _draw() -> void:
     DebugDraw.draw_axes(self, size / 2.0, "UI center: %s" % [Format.format_position(size / 2.0, CameraManager.CoordsType.UI, true)], Color.WHEAT, Color.BLACK)
 
     # camera
-    var camera_position := camera_manager.current_camera.position
-    var camera_offset := camera_manager.current_camera.offset
-    var camera_target_position := camera_manager.current_camera.get_target_position()
-    var camera_target_position_plus_offset := camera_target_position + camera_offset
-    var camera_screen_center_position := camera_manager.current_camera.get_screen_center_position()
-    var camera_coords_type := camera_manager.get_current_camera_coords_type()
+    if camera_manager && camera_manager.current_camera:
+        var camera_position := camera_manager.current_camera.position
+        var camera_offset := camera_manager.current_camera.offset
+        var camera_target_position := camera_manager.current_camera.get_target_position()
+        var camera_target_position_plus_offset := camera_target_position + camera_offset
+        var camera_screen_center_position := camera_manager.current_camera.get_screen_center_position()
+        var camera_coords_type := camera_manager.get_current_camera_coords_type()
 
-    assert(camera_coords_type in [CameraManager.CoordsType.World, CameraManager.CoordsType.UI])
+        assert(camera_coords_type in [CameraManager.CoordsType.World, CameraManager.CoordsType.UI])
 
-    var ui_coords_camera_target_position_plus_offset := transform_to_ui_coords(camera_coords_type, camera_target_position_plus_offset)
-    var ui_coords_camera_screen_center_position := transform_to_ui_coords(camera_coords_type, camera_screen_center_position)
-    var world_coords_camera_target_position_plus_offset := transform_to_world_coords(camera_coords_type, camera_target_position_plus_offset)
-    var world_coords_camera_screen_center_position := transform_to_world_coords(camera_coords_type, camera_screen_center_position)
+        var ui_coords_camera_target_position_plus_offset := transform_to_ui_coords(camera_coords_type, camera_target_position_plus_offset)
+        var ui_coords_camera_screen_center_position := transform_to_ui_coords(camera_coords_type, camera_screen_center_position)
+        var world_coords_camera_target_position_plus_offset := transform_to_world_coords(camera_coords_type, camera_target_position_plus_offset)
+        var world_coords_camera_screen_center_position := transform_to_world_coords(camera_coords_type, camera_screen_center_position)
 
-    draw_dashed_line(ui_coords_camera_target_position_plus_offset, ui_coords_camera_screen_center_position, Color.GREEN, 0.5, 1, false)
-    DebugDraw.draw_labeled_circle(self, ui_coords_camera_target_position_plus_offset, 5, Color.YELLOW, Color.BLACK, 1, [
-        "🎥 target_position + offset: %s" % [Format.format_position(world_coords_camera_target_position_plus_offset, CameraManager.CoordsType.World)],
-        "%s" % [Format.format_position(ui_coords_camera_target_position_plus_offset, CameraManager.CoordsType.UI)],
-    ])
-    DebugDraw.draw_labeled_circle(self, ui_coords_camera_screen_center_position, 7, Color.GREEN, Color.BLACK, 1, [
-        "🎥 screen_center_position: %s" % [Format.format_position(world_coords_camera_screen_center_position, CameraManager.CoordsType.World)],
-        "%s" % [Format.format_position(ui_coords_camera_screen_center_position, CameraManager.CoordsType.UI)],
-    ])
+        draw_dashed_line(ui_coords_camera_target_position_plus_offset, ui_coords_camera_screen_center_position, Color.GREEN, 0.5, 1, false)
+        DebugDraw.draw_labeled_circle(self, ui_coords_camera_target_position_plus_offset, 5, Color.YELLOW, Color.BLACK, 1, [
+            "🎥 target_position + offset: %s" % [Format.format_position(world_coords_camera_target_position_plus_offset, CameraManager.CoordsType.World)],
+            "%s" % [Format.format_position(ui_coords_camera_target_position_plus_offset, CameraManager.CoordsType.UI)],
+        ])
+        DebugDraw.draw_labeled_circle(self, ui_coords_camera_screen_center_position, 7, Color.GREEN, Color.BLACK, 1, [
+            "🎥 screen_center_position: %s" % [Format.format_position(world_coords_camera_screen_center_position, CameraManager.CoordsType.World)],
+            "%s" % [Format.format_position(ui_coords_camera_screen_center_position, CameraManager.CoordsType.UI)],
+        ])
 
-    if !camera_position.is_zero_approx():
-        var ui_coords_from := transform_to_ui_coords(camera_coords_type, camera_target_position - camera_position)
-        var ui_coords_to := transform_to_ui_coords(camera_coords_type, camera_target_position)
-        draw_line(ui_coords_from, ui_coords_to, Color.DARK_GRAY, 0.5)
-        DebugDraw.draw_labeled_circle(self, ui_coords_from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 position: %s" % [Format.format_position(camera_position, camera_coords_type)]])
+        if !camera_position.is_zero_approx():
+            var ui_coords_from := transform_to_ui_coords(camera_coords_type, camera_target_position - camera_position)
+            var ui_coords_to := transform_to_ui_coords(camera_coords_type, camera_target_position)
+            draw_line(ui_coords_from, ui_coords_to, Color.DARK_GRAY, 0.5)
+            DebugDraw.draw_labeled_circle(self, ui_coords_from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 position: %s" % [Format.format_position(camera_position, camera_coords_type)]])
 
-    if !camera_offset.is_zero_approx():
-        var ui_coords_from := transform_to_ui_coords(camera_coords_type, camera_target_position)
-        var ui_coords_to := transform_to_ui_coords(camera_coords_type, camera_target_position_plus_offset)
-        draw_line(ui_coords_from, ui_coords_to, Color.DARK_GRAY, 0.5)
-        DebugDraw.draw_labeled_circle(self, ui_coords_from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 target_position (without offset): %s" % [Format.format_position(camera_target_position, camera_coords_type)]])
+        if !camera_offset.is_zero_approx():
+            var ui_coords_from := transform_to_ui_coords(camera_coords_type, camera_target_position)
+            var ui_coords_to := transform_to_ui_coords(camera_coords_type, camera_target_position_plus_offset)
+            draw_line(ui_coords_from, ui_coords_to, Color.DARK_GRAY, 0.5)
+            DebugDraw.draw_labeled_circle(self, ui_coords_from, 3, Color.DARK_GRAY, Color.BLACK, 0.5, ["🎥 target_position (without offset): %s" % [Format.format_position(camera_target_position, camera_coords_type)]])
 
     # mouse
     var mouse_coords := get_local_mouse_position()
-    var world_coords := transform_to_world_coords(CameraManager.CoordsType.UI, mouse_coords)
     var screen_coords := transform_ui_to_screen_coords(mouse_coords)
-    var lines: Array[String] = [
-        Format.format_position(world_coords, CameraManager.CoordsType.World),
-        Format.format_position(mouse_coords, CameraManager.CoordsType.UI),
-        Format.format_position(screen_coords, CameraManager.CoordsType.Screen, true),
-    ]
+    var lines: Array[String]
+    lines.append(Format.format_position(mouse_coords, CameraManager.CoordsType.UI))
+    if texture_rect && game:
+        lines.append(Format.format_position(transform_to_world_coords(CameraManager.CoordsType.UI, mouse_coords), CameraManager.CoordsType.World))
+    lines.append(Format.format_position(screen_coords, CameraManager.CoordsType.Screen, true))
     DebugDraw.draw_labeled_circle(self, mouse_coords, 3, Color.LIGHT_GRAY, Color.BLACK, 0.25, lines)
 
 
