@@ -100,9 +100,9 @@ func _draw() -> void:
     var mouse_coords := get_local_mouse_position()
     var screen_coords := transform_ui_to_screen_coords(mouse_coords)
     var lines: Array[String]
-    lines.append(Format.format_position(mouse_coords, CameraManager.CoordsType.UI))
     if texture_rect && game:
         lines.append(Format.format_position(transform_to_world_coords(CameraManager.CoordsType.UI, mouse_coords), CameraManager.CoordsType.World))
+    lines.append(Format.format_position(mouse_coords, CameraManager.CoordsType.UI))
     lines.append(Format.format_position(screen_coords, CameraManager.CoordsType.Screen, true))
     DebugDraw.draw_labeled_circle(self, mouse_coords, 3, Color.LIGHT_GRAY, Color.BLACK, 0.25, lines)
 
