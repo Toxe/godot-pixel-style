@@ -21,10 +21,11 @@ metadata/_edit_lock_ = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=239256045]
 
-[node name="UI" parent="CanvasLayer" unique_id=1614743662 node_paths=PackedStringArray("game", "camera_manager", "texture_rect") instance=ExtResource("2_sugp2")]
+[node name="UI" parent="CanvasLayer" unique_id=1614743662 node_paths=PackedStringArray("game", "camera_manager", "texture_rect", "sub_viewport") instance=ExtResource("2_sugp2")]
 game = NodePath("../../SubViewport/Game")
 camera_manager = NodePath("../../CameraManager")
 texture_rect = NodePath("../../TextureRect")
+sub_viewport = NodePath("../../SubViewport")
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=1864555742]
 handle_input_locally = false

@@ -94,7 +94,9 @@ layout_mode = 2
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer5" unique_id=430946569]
 layout_mode = 2
 text = "Window size:
-Game viewport size:"
+Game viewport size:
+Snap 2D Transforms to Pixel:
+Snap 2D Vertices to Pixel:"
 horizontal_alignment = 2
 
 [node name="WindowSizeLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer5" unique_id=1153910091]
@@ -168,6 +170,8 @@ Move Camera (Position): Ctrl + Arrow Keys
 Slow Camera Movement: Hold Shift
 Recenter Camera: R
 Toggle Camera Smoothing: S
+Toggle Snap 2D Transforms to Pixel: N
+Toggle Snap 2D Vertices to Pixel: M
 Quit: Escape"
 horizontal_alignment = 2
 

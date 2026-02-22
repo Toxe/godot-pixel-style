@@ -3,6 +3,7 @@ class_name UI extends Control
 @export var game: Game
 @export var camera_manager: CameraManager
 @export var texture_rect: TextureRect
+@export var sub_viewport: SubViewport
 
 @onready var frame_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer9/FrameLabel
 @onready var camera_label: Label = $HBoxContainer/VBoxContainer/HBoxContainer/CameraLabel
@@ -41,7 +42,7 @@ func _process(_delta: float) -> void:
     if game:
         king_label.text = "%s\n%s" % [Format.format_position(game.king.global_position, CameraManager.CoordsType.World), Format.format_position(game.king.get_screen_transform().origin, CameraManager.CoordsType.World)]
         priest_label.text = "%s\n%s" % [Format.format_position(game.priest.global_position, CameraManager.CoordsType.World), Format.format_position(game.priest.get_screen_transform().origin, CameraManager.CoordsType.World)]
-        window_size_label.text = "%s\n%s" % [Format.format_size(get_window().size), Format.format_size((game.get_viewport() as SubViewport).size)]
+        window_size_label.text = "%s\n%s\n%s\n%s" % [Format.format_size(get_window().size), Format.format_size((game.get_viewport() as SubViewport).size), sub_viewport.snap_2d_transforms_to_pixel, sub_viewport.snap_2d_vertices_to_pixel]
 
         king_speed_slider.value = game.king_speed
         king_speed_label.text = "%.2f" % game.king_speed
@@ -119,6 +120,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
         DebugDraw.draw_enabled = !DebugDraw.draw_enabled
     elif event.is_action_pressed("toggle_debug_text"):
         DebugDraw.text_enabled = !DebugDraw.text_enabled
+    elif event.is_action_pressed("toggle_snap_2d_transforms_to_pixel"):
+        sub_viewport.snap_2d_transforms_to_pixel = !sub_viewport.snap_2d_transforms_to_pixel
+    elif event.is_action_pressed("toggle_snap_2d_vertices_to_pixel"):
+        sub_viewport.snap_2d_vertices_to_pixel = !sub_viewport.snap_2d_vertices_to_pixel
     elif event.is_action_pressed("quit"):
         get_tree().quit()
 
