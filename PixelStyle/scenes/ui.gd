@@ -115,12 +115,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
         DebugDraw.draw_enabled = !DebugDraw.draw_enabled
     elif event.is_action_pressed("toggle_debug_text"):
         DebugDraw.text_enabled = !DebugDraw.text_enabled
-    elif event.is_action_pressed("switch_camera"):
-        camera_manager.next_camera()
-    elif event.is_action_pressed("recenter_camera"):
-        camera_manager.recenter_camera()
-    elif event.is_action_pressed("toggle_camera_smoothing"):
-        camera_manager.toggle_camera_smoothing()
     elif event.is_action_pressed("quit"):
         get_tree().quit()
 

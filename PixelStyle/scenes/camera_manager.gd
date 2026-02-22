@@ -22,6 +22,15 @@ func _process(delta: float) -> void:
             current_camera.offset += camera_movement * 100.0 * delta * camera_speed
 
 
+func _unhandled_key_input(event: InputEvent) -> void:
+    if event.is_action_pressed("switch_camera"):
+        next_camera()
+    elif event.is_action_pressed("recenter_camera"):
+        recenter_camera()
+    elif event.is_action_pressed("toggle_camera_smoothing"):
+        toggle_camera_smoothing()
+
+
 func _get_first_enabled_camera() -> Camera2D:
     return cameras.get(cameras.find_custom(func(c: Camera2D) -> bool: return c.enabled))
 
