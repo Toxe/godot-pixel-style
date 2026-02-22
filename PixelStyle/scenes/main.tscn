@@ -31,7 +31,6 @@ snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(640, 360)
-render_target_update_mode = 4
 
 [node name="Game" parent="SubViewport" unique_id=1879872571 instance=ExtResource("1_o5qli")]
 
