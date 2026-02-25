@@ -17,5 +17,5 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-    var center := get_viewport_rect().get_center()
-    DebugDraw.draw_axes(self, center, "world center: %s" % [Format.format_position(center, CameraManager.CoordsType.World, true)], Color.WHEAT, Color.BLACK)
+    var rect := ($Background as Sprite2D).get_rect()
+    DebugDraw.draw_axes(self, rect, "world center: %s" % [Format.format_position(rect.get_center(), CameraManager.CoordsType.World, true)], Color.WHEAT, Color.BLACK)

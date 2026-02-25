@@ -42,12 +42,13 @@ static func draw_label(canvas_item: CanvasItem, label_position: Vector2, lines: 
             canvas_item.draw_string(project_theme.default_font, baseline_position, label.text, HORIZONTAL_ALIGNMENT_RIGHT, label.rect.size.x, label.font_size, text_color)
 
 
-static func draw_axes(canvas_item: CanvasItem, center: Vector2, text: String, color: Color, outline_color: Color) -> void:
+static func draw_axes(canvas_item: CanvasItem, rect: Rect2, text: String, color: Color, outline_color: Color) -> void:
     if draw_enabled && canvas_item.visible:
-        var viewport_size := canvas_item.get_viewport_rect().size
-        canvas_item.draw_line(Vector2(center.x, 0), Vector2(center.x, viewport_size.y), color)
-        canvas_item.draw_line(Vector2(0, center.y), Vector2(viewport_size.x, center.y), color)
-        var label_position := Vector2(viewport_size.x - 1, center.y)
+        var size := rect.size
+        var center := rect.get_center()
+        canvas_item.draw_line(Vector2(center.x, 0), Vector2(center.x, size.y), color)
+        canvas_item.draw_line(Vector2(0, center.y), Vector2(size.x, center.y), color)
+        var label_position := Vector2(size.x - 1, center.y)
         draw_label(canvas_item, label_position, [text], color, outline_color, Vector2(1, 1))
 
 

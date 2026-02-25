@@ -57,7 +57,7 @@ func _draw() -> void:
         return
 
     # axes
-    DebugDraw.draw_axes(self, size / 2.0, "UI center: %s" % [Format.format_position(size / 2.0, CameraManager.CoordsType.UI, true)], Color.WHEAT, Color.BLACK)
+    DebugDraw.draw_axes(self, get_rect(), "UI center: %s" % [Format.format_position(get_rect().get_center(), CameraManager.CoordsType.UI, true)], Color.WHEAT, Color.BLACK)
 
     # camera
     if camera_manager && camera_manager.current_camera:
