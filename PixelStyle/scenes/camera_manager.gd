@@ -39,10 +39,10 @@ func _unhandled_input(event: InputEvent) -> void:
     elif event.is_action_pressed("toggle_camera_smoothing"):
         toggle_camera_smoothing()
     elif event.is_action_pressed("zoom_in"):
-        var new_target_zoom := get_current_camera_zoom_target() + Vector2(0.5, 0.5)
+        var new_target_zoom := get_current_camera_zoom_target() + Vector2(0.1, 0.1)
         set_current_camera_zoom_target(new_target_zoom)
     elif event.is_action_pressed("zoom_out"):
-        var new_target_zoom := get_current_camera_zoom_target() - Vector2(0.5, 0.5)
+        var new_target_zoom := get_current_camera_zoom_target() - Vector2(0.1, 0.1)
         set_current_camera_zoom_target(new_target_zoom)
 
 
@@ -79,7 +79,7 @@ func get_current_camera_coords_type() -> CoordsType:
 
 func set_current_camera_zoom_target(target_zoom: Vector2) -> void:
     var index := _get_current_camera_index()
-    target_zoom = target_zoom.clamp(Vector2(0.25, 0.25), Vector2(5, 5))
+    target_zoom = target_zoom.clamp(Vector2(0.1, 0.1), Vector2(8, 8))
     _cameras_zoom_targets[index] = target_zoom
     if _cameras_zoom_tweens[index]:
         _cameras_zoom_tweens[index].kill()
