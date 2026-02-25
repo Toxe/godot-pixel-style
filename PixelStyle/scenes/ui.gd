@@ -23,25 +23,25 @@ func _process(_delta: float) -> void:
     frame_label.text = "%0.6f\n%d\n%0.1f" % [Time.get_ticks_usec() / 1_000_000.0, Engine.get_process_frames(), Performance.get_monitor(Performance.TIME_FPS)]
 
     if camera_manager && camera_manager.current_camera:
-        camera_label.text = "%s\n%s\n%s\n%s\n%s\n%s\n%s" % [
-            camera_manager.current_camera.name,
+        camera_label.text = "%s %s\n%s\n%s\n%s\n%s\n%s\n%s" % [
+            camera_manager.current_camera.get_coords_type_symbol(), camera_manager.current_camera.name,
             "on" if camera_manager.current_camera.position_smoothing_enabled else "off",
-            Format.format_position(camera_manager.current_camera.position, camera_manager.get_current_camera_coords_type()),
-            Format.format_position(camera_manager.current_camera.global_position, camera_manager.get_current_camera_coords_type()),
-            Format.format_position(camera_manager.current_camera.get_target_position(), camera_manager.get_current_camera_coords_type()),
-            Format.format_position(camera_manager.current_camera.offset, camera_manager.get_current_camera_coords_type()),
-            Format.format_position(camera_manager.current_camera.get_screen_center_position(), camera_manager.get_current_camera_coords_type()),
+            Format.format_position(camera_manager.current_camera.position, camera_manager.current_camera.get_coords_type()),
+            Format.format_position(camera_manager.current_camera.global_position, camera_manager.current_camera.get_coords_type()),
+            Format.format_position(camera_manager.current_camera.get_target_position(), camera_manager.current_camera.get_coords_type()),
+            Format.format_position(camera_manager.current_camera.offset, camera_manager.current_camera.get_coords_type()),
+            Format.format_position(camera_manager.current_camera.get_screen_center_position(), camera_manager.current_camera.get_coords_type()),
         ]
 
-        camera_zoom_slider.set_value_no_signal(camera_manager.get_current_camera_zoom_target().x)
-        camera_zoom_label.text = "%.2f" % camera_manager.get_current_camera_zoom_target().x
+        camera_zoom_slider.set_value_no_signal(camera_manager.current_camera.get_zoom_target().x)
+        camera_zoom_label.text = "%.2f" % camera_manager.current_camera.get_zoom_target().x
 
     if texture_rect:
         texture_rect_label.text = "%s\n%s" % [Format.format_position(texture_rect.get_canvas_transform().origin), Format.format_position(texture_rect.get_screen_transform().origin)]
 
     if game:
-        king_label.text = "%s\n%s" % [Format.format_position(game.king.global_position, CameraManager.CoordsType.World), Format.format_position(game.king.get_screen_transform().origin, CameraManager.CoordsType.World)]
-        priest_label.text = "%s\n%s" % [Format.format_position(game.priest.global_position, CameraManager.CoordsType.World), Format.format_position(game.priest.get_screen_transform().origin, CameraManager.CoordsType.World)]
+        king_label.text = "%s\n%s" % [Format.format_position(game.king.global_position, CustomCamera.CoordsType.World), Format.format_position(game.king.get_screen_transform().origin, CustomCamera.CoordsType.World)]
+        priest_label.text = "%s\n%s" % [Format.format_position(game.priest.global_position, CustomCamera.CoordsType.World), Format.format_position(game.priest.get_screen_transform().origin, CustomCamera.CoordsType.World)]
         window_size_label.text = "%s\n%s\n%s\n%s" % [Format.format_size(get_window().size), Format.format_size((game.get_viewport() as SubViewport).size), sub_viewport.snap_2d_transforms_to_pixel, sub_viewport.snap_2d_vertices_to_pixel]
 
         king_speed_slider.value = game.king_speed
@@ -57,7 +57,7 @@ func _draw() -> void:
         return
 
     # axes
-    DebugDraw.draw_axes(self, get_rect(), "UI center: %s" % [Format.format_position(get_rect().get_center(), CameraManager.CoordsType.UI, true)], Color.WHEAT, Color.BLACK)
+    DebugDraw.draw_axes(self, get_rect(), "UI center: %s" % [Format.format_position(get_rect().get_center(), CustomCamera.CoordsType.UI, true)], Color.WHEAT, Color.BLACK)
 
     # camera
     if camera_manager && camera_manager.current_camera:
@@ -66,9 +66,9 @@ func _draw() -> void:
         var camera_target_position := camera_manager.current_camera.get_target_position()
         var camera_target_position_plus_offset := camera_target_position + camera_offset
         var camera_screen_center_position := camera_manager.current_camera.get_screen_center_position()
-        var camera_coords_type := camera_manager.get_current_camera_coords_type()
+        var camera_coords_type := camera_manager.current_camera.get_coords_type()
 
-        assert(camera_coords_type in [CameraManager.CoordsType.World, CameraManager.CoordsType.UI])
+        assert(camera_coords_type in [CustomCamera.CoordsType.World, CustomCamera.CoordsType.UI])
 
         var ui_coords_camera_target_position_plus_offset := transform_to_ui_coords(camera_coords_type, camera_target_position_plus_offset)
         var ui_coords_camera_screen_center_position := transform_to_ui_coords(camera_coords_type, camera_screen_center_position)
@@ -77,12 +77,12 @@ func _draw() -> void:
 
         draw_dashed_line(ui_coords_camera_target_position_plus_offset, ui_coords_camera_screen_center_position, Color.GREEN, 0.5, 1, false)
         DebugDraw.draw_labeled_circle(self, ui_coords_camera_target_position_plus_offset, 5, Color.YELLOW, Color.BLACK, 1, [
-            "🎥 target_position + offset: %s" % [Format.format_position(world_coords_camera_target_position_plus_offset, CameraManager.CoordsType.World)],
-            "%s" % [Format.format_position(ui_coords_camera_target_position_plus_offset, CameraManager.CoordsType.UI)],
+            "🎥 target_position + offset: %s" % [Format.format_position(world_coords_camera_target_position_plus_offset, CustomCamera.CoordsType.World)],
+            "%s" % [Format.format_position(ui_coords_camera_target_position_plus_offset, CustomCamera.CoordsType.UI)],
         ])
         DebugDraw.draw_labeled_circle(self, ui_coords_camera_screen_center_position, 7, Color.GREEN, Color.BLACK, 1, [
-            "🎥 screen_center_position: %s" % [Format.format_position(world_coords_camera_screen_center_position, CameraManager.CoordsType.World)],
-            "%s" % [Format.format_position(ui_coords_camera_screen_center_position, CameraManager.CoordsType.UI)],
+            "🎥 screen_center_position: %s" % [Format.format_position(world_coords_camera_screen_center_position, CustomCamera.CoordsType.World)],
+            "%s" % [Format.format_position(ui_coords_camera_screen_center_position, CustomCamera.CoordsType.UI)],
         ])
 
         if !camera_position.is_zero_approx():
@@ -102,9 +102,9 @@ func _draw() -> void:
     var screen_coords := transform_ui_to_screen_coords(mouse_coords)
     var lines: Array[String]
     if texture_rect && game:
-        lines.append(Format.format_position(transform_to_world_coords(CameraManager.CoordsType.UI, mouse_coords), CameraManager.CoordsType.World))
-    lines.append(Format.format_position(mouse_coords, CameraManager.CoordsType.UI))
-    lines.append(Format.format_position(screen_coords, CameraManager.CoordsType.Screen, true))
+        lines.append(Format.format_position(transform_to_world_coords(CustomCamera.CoordsType.UI, mouse_coords), CustomCamera.CoordsType.World))
+    lines.append(Format.format_position(mouse_coords, CustomCamera.CoordsType.UI))
+    lines.append(Format.format_position(screen_coords, CustomCamera.CoordsType.Screen, true))
     DebugDraw.draw_labeled_circle(self, mouse_coords, 3, Color.LIGHT_GRAY, Color.BLACK, 0.25, lines)
 
 
@@ -128,10 +128,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
         get_tree().quit()
 
 
-func transform_to_ui_coords(from: CameraManager.CoordsType, coords: Vector2) -> Vector2:
-    assert(from in [CameraManager.CoordsType.World, CameraManager.CoordsType.UI])
+func transform_to_ui_coords(from: CustomCamera.CoordsType, coords: Vector2) -> Vector2:
+    assert(from in [CustomCamera.CoordsType.World, CustomCamera.CoordsType.UI])
 
-    if from == CameraManager.CoordsType.UI:
+    if from == CustomCamera.CoordsType.UI:
         return coords
 
     var world_coords := coords
@@ -141,10 +141,10 @@ func transform_to_ui_coords(from: CameraManager.CoordsType, coords: Vector2) -> 
     return coords_on_ui_canvas
 
 
-func transform_to_world_coords(from: CameraManager.CoordsType, coords: Vector2) -> Vector2:
-    assert(from in [CameraManager.CoordsType.World, CameraManager.CoordsType.UI])
+func transform_to_world_coords(from: CustomCamera.CoordsType, coords: Vector2) -> Vector2:
+    assert(from in [CustomCamera.CoordsType.World, CustomCamera.CoordsType.UI])
 
-    if from == CameraManager.CoordsType.World:
+    if from == CustomCamera.CoordsType.World:
         return coords
 
     var ui_coords := coords
@@ -161,7 +161,7 @@ func transform_ui_to_screen_coords(ui_coords: Vector2) -> Vector2:
 
 
 func _on_camera_zoom_slider_value_changed(value: float) -> void:
-    camera_manager.set_current_camera_zoom_target(Vector2(value, value))
+    camera_manager.current_camera.set_zoom_target(Vector2(value, value))
 
 
 func _on_king_speed_slider_value_changed(value: float) -> void:

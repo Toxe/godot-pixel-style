@@ -1,7 +1,7 @@
 class_name Format
 
 
-static func format_position(vec: Vector2, coords_type := CameraManager.CoordsType.Unknown, trim_trailing_zeros := false) -> String:
+static func format_position(vec: Vector2, coords_type := CustomCamera.CoordsType.Unknown, trim_trailing_zeros := false) -> String:
     var x := "%.2f" % vec.x
     var y := "%.2f" % vec.y
 
@@ -10,7 +10,9 @@ static func format_position(vec: Vector2, coords_type := CameraManager.CoordsTyp
         x = x.left(-3)
         y = y.left(-3)
 
-    return "%s%s / %s" % [_coords_type_to_symbol(coords_type), x, y]
+    var symbol := CustomCamera.get_symbol_for_coords_type(coords_type)
+    symbol = "" if symbol == "❓" else (symbol + " ")
+    return "%s%s / %s" % [symbol, x, y]
 
 
 static func format_size(vec: Vector2) -> String:
@@ -19,11 +21,3 @@ static func format_size(vec: Vector2) -> String:
 
 static func without_trailing_zeros(n: float) -> String:
     return String.num(n, 0 if step_decimals(n) == 0 else -1)
-
-
-static func _coords_type_to_symbol(coords_type: CameraManager.CoordsType) -> String:
-    match coords_type:
-        CameraManager.CoordsType.World: return "🌐 "
-        CameraManager.CoordsType.UI: return "📐 "
-        CameraManager.CoordsType.Screen: return "🖥️ "
-        _: return ""

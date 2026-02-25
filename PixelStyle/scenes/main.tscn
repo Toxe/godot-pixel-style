@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cl4oo5o1s3gb8" path="res://scenes/game.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://c0s1ghhdkg1y5" path="res://scenes/ui.tscn" id="2_sugp2"]
 [ext_resource type="Script" uid="uid://biqssj5ve8p1c" path="res://scenes/camera_manager.gd" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://dydrd5l77x1f2" path="res://scenes/custom_camera.gd" id="5_tbgi4"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_hyk8p"]
 viewport_path = NodePath("SubViewport")
@@ -38,12 +39,11 @@ size = Vector2i(640, 360)
 
 [node name="CameraManager" type="Node" parent="." unique_id=524834277 node_paths=PackedStringArray("cameras")]
 script = ExtResource("4_jyhfs")
-cameras = [NodePath("../CameraOrigin/MainCamera"), NodePath("../SubViewport/Game/KingPath2D/PathFollow2D/King/GameCamera")]
+cameras = [NodePath("../SubViewport/Game/KingPath2D/PathFollow2D/King/WorldCamera"), NodePath("../MainCamera")]
 
-[node name="CameraOrigin" type="Marker2D" parent="." unique_id=1277183352]
-position = Vector2(320, 180)
-
-[node name="MainCamera" type="Camera2D" parent="CameraOrigin" unique_id=1991759693]
+[node name="MainCamera" type="Camera2D" parent="." unique_id=1991759693]
 enabled = false
 position_smoothing_enabled = true
 position_smoothing_speed = 1.0
+script = ExtResource("5_tbgi4")
+coords_type = 2
