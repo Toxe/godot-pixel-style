@@ -2,8 +2,8 @@ class_name Enums
 
 enum CoordsType {
     Unknown,
-    World,  ## Game
-    WorldActor,  ## Game/.../King
+    World,  ## World
+    WorldActor,  ## World/.../King
     WorldViewportCanvas,  ## SubViewport
     Texture,  ## TextureRect
     UI,  ## CanvasLayer/UI

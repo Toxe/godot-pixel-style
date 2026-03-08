@@ -1,4 +1,4 @@
-class_name Game extends Node2D
+class_name World extends Node2D
 
 @onready var king: Sprite2D = $KingPath2D/PathFollow2D/King
 @onready var king_path_follow: PathFollow2D = $KingPath2D/PathFollow2D

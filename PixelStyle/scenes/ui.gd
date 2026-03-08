@@ -1,6 +1,6 @@
 class_name UI extends Control
 
-@export var game: Game
+@export var world: World
 @export var camera_manager: CameraManager
 @export var texture_rect: TextureRect
 @export var sub_viewport: SubViewport
@@ -39,15 +39,15 @@ func _process(_delta: float) -> void:
     if texture_rect:
         texture_rect_label.text = "%s\n%s" % [Format.format_position(texture_rect.get_canvas_transform().origin), Format.format_position(texture_rect.get_screen_transform().origin)]
 
-    if game:
-        king_label.text = "%s\n%s" % [Format.format_position(game.king.global_position, Enums.CoordsType.World), Format.format_position(game.king.get_screen_transform().origin, Enums.CoordsType.World)]
-        priest_label.text = "%s\n%s" % [Format.format_position(game.priest.global_position, Enums.CoordsType.World), Format.format_position(game.priest.get_screen_transform().origin, Enums.CoordsType.World)]
-        window_size_label.text = "%s\n%s\n%s\n%s" % [Format.format_size(get_window().size), Format.format_size((game.get_viewport() as SubViewport).size), sub_viewport.snap_2d_transforms_to_pixel, sub_viewport.snap_2d_vertices_to_pixel]
+    if world:
+        king_label.text = "%s\n%s" % [Format.format_position(world.king.global_position, Enums.CoordsType.World), Format.format_position(world.king.get_screen_transform().origin, Enums.CoordsType.World)]
+        priest_label.text = "%s\n%s" % [Format.format_position(world.priest.global_position, Enums.CoordsType.World), Format.format_position(world.priest.get_screen_transform().origin, Enums.CoordsType.World)]
+        window_size_label.text = "%s\n%s\n%s\n%s" % [Format.format_size(get_window().size), Format.format_size((world.get_viewport() as SubViewport).size), sub_viewport.snap_2d_transforms_to_pixel, sub_viewport.snap_2d_vertices_to_pixel]
 
-        king_speed_slider.value = game.king_speed
-        king_speed_label.text = "%.2f" % game.king_speed
-        priest_speed_slider.value = game.priest_speed
-        priest_speed_label.text = "%.2f (pixels per frame)" % game.priest_speed
+        king_speed_slider.value = world.king_speed
+        king_speed_label.text = "%.2f" % world.king_speed
+        priest_speed_slider.value = world.priest_speed
+        priest_speed_label.text = "%.2f (pixels per frame)" % world.priest_speed
 
     queue_redraw()
 
@@ -145,39 +145,39 @@ func transform_to_world_coords(from: Enums.CoordsType, coords: Vector2) -> Vecto
             return coords
         Enums.CoordsType.WorldViewportCanvas:
             var coords_on_world_viewport_canvas := coords
-            var coords_in_world := game.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
+            var coords_in_world := world.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
             return coords_in_world
         Enums.CoordsType.Texture:
             var coords_on_texture_rect := coords
             var coords_on_world_viewport_canvas := to_viewport_coords(coords_on_texture_rect)
-            var coords_in_world := game.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
+            var coords_in_world := world.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
             return coords_in_world
         Enums.CoordsType.UI:
             var coords_on_ui := coords
             var coords_on_ui_canvas := get_global_transform_with_canvas() * coords_on_ui
             var coords_on_texture_rect := texture_rect.get_global_transform_with_canvas().affine_inverse() * coords_on_ui_canvas
             var coords_on_world_viewport_canvas := to_viewport_coords(coords_on_texture_rect)
-            var coords_in_world := game.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
+            var coords_in_world := world.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
             return coords_in_world
         Enums.CoordsType.UICanvas:
             var coords_on_ui_canvas := coords
             var coords_on_main_viewport := get_canvas_transform() * coords_on_ui_canvas
             var coords_on_texture_rect := texture_rect.get_global_transform_with_canvas().affine_inverse() * coords_on_main_viewport
             var coords_on_world_viewport_canvas := to_viewport_coords(coords_on_texture_rect)
-            var coords_in_world := game.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
+            var coords_in_world := world.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
             return coords_in_world
         Enums.CoordsType.Main:
             var coords_on_main_viewport := coords
             var coords_on_texture_rect := texture_rect.get_global_transform_with_canvas().affine_inverse() * coords_on_main_viewport
             var coords_on_world_viewport_canvas := to_viewport_coords(coords_on_texture_rect)
-            var coords_in_world := game.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
+            var coords_in_world := world.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
             return coords_in_world
         Enums.CoordsType.Screen:
             var coords_on_screen := coords
             var coords_on_main_viewport := get_viewport().get_screen_transform().affine_inverse() * coords_on_screen
             var coords_on_texture_rect := texture_rect.get_global_transform_with_canvas().affine_inverse() * coords_on_main_viewport
             var coords_on_world_viewport_canvas := to_viewport_coords(coords_on_texture_rect)
-            var coords_in_world := game.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
+            var coords_in_world := world.get_global_transform_with_canvas().affine_inverse() * coords_on_world_viewport_canvas
             return coords_in_world
         _:
             assert(false, "Enums.CoordsType %s not supported" % from)
@@ -192,7 +192,7 @@ func transform_to_world_viewport_canvas_coords(from: Enums.CoordsType, coords: V
     match from:
         Enums.CoordsType.World, Enums.CoordsType.WorldActor:
             var coords_in_world := coords
-            var coords_on_world_viewport_canvas := game.get_global_transform_with_canvas() * coords_in_world
+            var coords_on_world_viewport_canvas := world.get_global_transform_with_canvas() * coords_in_world
             return coords_on_world_viewport_canvas
         Enums.CoordsType.WorldViewportCanvas:
             return coords
@@ -232,7 +232,7 @@ func transform_to_texture_coords(from: Enums.CoordsType, coords: Vector2) -> Vec
     match from:
         Enums.CoordsType.World, Enums.CoordsType.WorldActor:
             var coords_in_world := coords
-            var coords_on_world_viewport_canvas := game.get_global_transform_with_canvas() * coords_in_world
+            var coords_on_world_viewport_canvas := world.get_global_transform_with_canvas() * coords_in_world
             var coords_on_texture_rect := to_viewport_coords(coords_on_world_viewport_canvas)
             return coords_on_texture_rect
         Enums.CoordsType.WorldViewportCanvas:
@@ -269,7 +269,7 @@ func transform_to_ui_coords(from: Enums.CoordsType, coords: Vector2) -> Vector2:
     match from:
         Enums.CoordsType.World, Enums.CoordsType.WorldActor:
             var coords_in_world := coords
-            var coords_on_world_viewport_canvas := game.get_global_transform_with_canvas() * coords_in_world
+            var coords_on_world_viewport_canvas := world.get_global_transform_with_canvas() * coords_in_world
             var coords_on_texture_rect := to_viewport_coords(coords_on_world_viewport_canvas)
             var coords_on_ui_canvas := texture_rect.get_global_transform_with_canvas() * coords_on_texture_rect
             var coords_on_ui := get_global_transform_with_canvas().affine_inverse() * coords_on_ui_canvas
@@ -309,7 +309,7 @@ func transform_to_ui_canvas_coords(from: Enums.CoordsType, coords: Vector2) -> V
     match from:
         Enums.CoordsType.World, Enums.CoordsType.WorldActor:
             var coords_in_world := coords
-            var coords_on_world_viewport_canvas := game.get_global_transform_with_canvas() * coords_in_world
+            var coords_on_world_viewport_canvas := world.get_global_transform_with_canvas() * coords_in_world
             var coords_on_texture_rect := to_viewport_coords(coords_on_world_viewport_canvas)
             var coords_on_main_viewport := texture_rect.get_global_transform_with_canvas() * coords_on_texture_rect
             var coords_on_ui_canvas := get_canvas_transform().affine_inverse() * coords_on_main_viewport
@@ -349,7 +349,7 @@ func transform_to_main_viewport_coords(from: Enums.CoordsType, coords: Vector2) 
     match from:
         Enums.CoordsType.World, Enums.CoordsType.WorldActor:
             var coords_in_world := coords
-            var coords_on_world_viewport_canvas := game.get_global_transform_with_canvas() * coords_in_world
+            var coords_on_world_viewport_canvas := world.get_global_transform_with_canvas() * coords_in_world
             var coords_on_texture_rect := to_viewport_coords(coords_on_world_viewport_canvas)
             var coords_on_main_viewport := texture_rect.get_global_transform_with_canvas() * coords_on_texture_rect
             return coords_on_main_viewport
@@ -385,7 +385,7 @@ func transform_to_screen_coords(from: Enums.CoordsType, coords: Vector2) -> Vect
     match from:
         Enums.CoordsType.World, Enums.CoordsType.WorldActor:
             var coords_in_world := coords
-            var coords_on_world_viewport_canvas := game.get_global_transform_with_canvas() * coords_in_world
+            var coords_on_world_viewport_canvas := world.get_global_transform_with_canvas() * coords_in_world
             var coords_on_texture_rect := to_viewport_coords(coords_on_world_viewport_canvas)
             var coords_on_main_viewport := texture_rect.get_global_transform_with_canvas() * coords_on_texture_rect
             var coords_on_screen := get_viewport().get_screen_transform() * coords_on_main_viewport
@@ -459,10 +459,10 @@ func _on_camera_zoom_slider_value_changed(value: float) -> void:
 
 
 func _on_king_speed_slider_value_changed(value: float) -> void:
-    game.king_speed = value
-    king_speed_label.text = "%.2f" % game.king_speed
+    world.king_speed = value
+    king_speed_label.text = "%.2f" % world.king_speed
 
 
 func _on_priest_speed_slider_value_changed(value: float) -> void:
-    game.priest_speed = value
-    priest_speed_label.text = "%.2f" % game.priest_speed
+    world.priest_speed = value
+    priest_speed_label.text = "%.2f" % world.priest_speed

@@ -94,7 +94,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer5" unique_id=430946569]
 layout_mode = 2
 text = "Window size:
-Game viewport size:
+World viewport size:
 Snap 2D Transforms to Pixel:
 Snap 2D Vertices to Pixel:"
 horizontal_alignment = 2

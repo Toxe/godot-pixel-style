@@ -23,11 +23,11 @@ func _create_ui() -> UI:
     texture_rect.flip_h = true
     texture_rect.flip_v = true
 
-    var game: Game = main.get_node("SubViewport/Game")
-    game.scale = Vector2(0.5, 0.5)
-    game.rotation = deg_to_rad(-30)
+    var world: World = main.get_node("SubViewport/World")
+    world.scale = Vector2(0.5, 0.5)
+    world.rotation = deg_to_rad(-30)
 
-    ui.game.king_speed = 0.0
+    ui.world.king_speed = 0.0
     ui.camera_manager.select_camera("WorldCamera")
     ui.camera_manager.current_camera.position_smoothing_enabled = false
 
