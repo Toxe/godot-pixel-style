@@ -30,19 +30,15 @@ func _unhandled_input(event: InputEvent) -> void:
         current_camera.set_zoom_target(new_zoom_target)
 
 
-func _get_first_enabled_camera() -> CustomCamera:
-    return cameras.get(cameras.find_custom(func(c: CustomCamera) -> bool: return c.enabled))
-
-
-func _get_current_camera_index() -> int:
-    return cameras.find(current_camera)
-
-
 func next_camera() -> void:
-    var next_index := _get_current_camera_index() + 1
-    current_camera.enabled = false
-    current_camera = cameras[next_index] if next_index < cameras.size() else cameras[0]
-    current_camera.enabled = true
+    var next_index := wrapi(_get_current_camera_index() + 1, 0, cameras.size())
+    _switch_to_camera(next_index)
+
+
+func select_camera(camera_name: String) -> void:
+    var next_index := _find_camera_by_name(camera_name)
+    if next_index >= 0:
+        _switch_to_camera(next_index)
 
 
 func recenter_camera() -> void:
@@ -52,3 +48,22 @@ func recenter_camera() -> void:
 
 func toggle_camera_smoothing() -> void:
     current_camera.position_smoothing_enabled = !current_camera.position_smoothing_enabled
+
+
+func _find_camera_by_name(camera_name: String) -> int:
+    return cameras.find_custom(func(c: CustomCamera) -> bool: return c.name == camera_name)
+
+
+func _get_first_enabled_camera() -> CustomCamera:
+    return cameras.get(cameras.find_custom(func(c: CustomCamera) -> bool: return c.enabled))
+
+
+func _get_current_camera_index() -> int:
+    return cameras.find(current_camera)
+
+
+func _switch_to_camera(index: int) -> void:
+    assert(index >= 0 && index < cameras.size())
+    current_camera.enabled = false
+    current_camera = cameras[index]
+    current_camera.enabled = true
