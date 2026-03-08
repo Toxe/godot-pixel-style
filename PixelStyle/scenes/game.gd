@@ -18,4 +18,4 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
     var rect := ($Background as Sprite2D).get_rect()
-    DebugDraw.draw_axes(self, rect, "world center: %s" % [Format.format_position(rect.get_center(), CustomCamera.CoordsType.World, true)], Color.WHEAT, Color.BLACK)
+    DebugDraw.draw_axes(self, rect, "world center: %s" % [Format.format_position(rect.get_center(), Enums.CoordsType.World, true)], Color.WHEAT, Color.BLACK)

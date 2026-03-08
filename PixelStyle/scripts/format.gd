@@ -1,7 +1,7 @@
 class_name Format
 
 
-static func format_position(vec: Vector2, coords_type := CustomCamera.CoordsType.Unknown, trim_trailing_zeros := false) -> String:
+static func format_position(vec: Vector2, coords_type := Enums.CoordsType.Unknown, trim_trailing_zeros := false) -> String:
     var x := "%.2f" % vec.x
     var y := "%.2f" % vec.y
 

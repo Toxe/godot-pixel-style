@@ -87,11 +87,11 @@ rotates = false
 [node name="King" type="Sprite2D" parent="KingPath2D/PathFollow2D" unique_id=2127320142]
 texture = ExtResource("2_lbhrr")
 
-[node name="WorldCamera" type="Camera2D" parent="KingPath2D/PathFollow2D/King" unique_id=1725449495]
+[node name="WorldActorCamera" type="Camera2D" parent="KingPath2D/PathFollow2D/King" unique_id=1725449495]
 position_smoothing_enabled = true
 position_smoothing_speed = 1.0
 script = ExtResource("5_p57ef")
-coords_type = 1
+coords_type = 2
 
 [node name="PriestPath2D" type="Path2D" parent="." unique_id=274425350]
 position = Vector2(1137, 1846.3118)
@@ -103,3 +103,10 @@ cubic_interp = false
 
 [node name="Priest" type="Sprite2D" parent="PriestPath2D/PathFollow2D" unique_id=1764088139]
 texture = ExtResource("3_iywne")
+
+[node name="WorldCamera" type="Camera2D" parent="." unique_id=1387311547]
+enabled = false
+position_smoothing_enabled = true
+position_smoothing_speed = 1.0
+script = ExtResource("5_p57ef")
+coords_type = 1

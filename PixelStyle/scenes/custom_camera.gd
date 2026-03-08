@@ -1,24 +1,22 @@
 class_name CustomCamera extends Camera2D
 
-enum CoordsType {
-    Unknown,
-    World,
-    UI,
-    Screen,
-}
-
-@export var coords_type := CoordsType.Unknown
+@export var coords_type := Enums.CoordsType.Unknown
 
 var _zoom_tween: Tween
 
 @onready var _zoom_target := zoom
 
 
-static func get_symbol_for_coords_type(type: CoordsType) -> String:
+static func get_symbol_for_coords_type(type: Enums.CoordsType) -> String:
     match type:
-        CoordsType.World: return "🌐"
-        CoordsType.UI: return "📐"
-        CoordsType.Screen: return "🖥️"
+        Enums.CoordsType.World: return "(World)"
+        Enums.CoordsType.WorldActor: return "(WorldActor)"
+        Enums.CoordsType.WorldViewportCanvas: return "(WorldViewportCanvas)"
+        Enums.CoordsType.Texture: return "(Texture)"
+        Enums.CoordsType.UI: return "(UI)"
+        Enums.CoordsType.UICanvas: return "(UICanvas)"
+        Enums.CoordsType.Main: return "(Main)"
+        Enums.CoordsType.Screen: return "(Screen)"
         _: return "❓"
 
 
